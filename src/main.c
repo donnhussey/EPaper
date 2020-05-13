@@ -33,13 +33,15 @@ int main(int c, char **v)
         }
         
         
-    int max_size = 1000;    
-    char fullinput[max_size];
+    int max_length = 200;
+    int max_lines = 200;
+        
+    char* input[max_size];
     
     if(optind == c)
     {
-        get_input(max_size, fullinput);
-        puts(fullinput);
+        get_input(max_size, max_lines, input);
+        puts(input);
     }
     else
         for(int i = optind; i < c; i++)
@@ -48,8 +50,13 @@ int main(int c, char **v)
     return 0;
 }
 
-int get_input(int max_size, char *fullinput)
+int get_input(int max_length, int max_lines char **input)
 {
-    while(fgets(fullinput, max_size, stdin) != NULL);
-    return 1;
+    char line_buf[max_length];
+    int i;
+    
+    for(i = 0; i < max_lines; i++){
+        fgets(line_buf, max_length, stdin);
+        input[i] = strdup(line);
+    }
 }
