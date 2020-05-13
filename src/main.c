@@ -39,11 +39,11 @@ int main(int c, char **v)
     if(optind == c)
     {
         get_input(max_size, fullinput);
-        printf(fullinput);
+        puts(fullinput);
     }
     else
         for(int i = optind; i < c; i++)
-            printf(v[i]);
+            puts(v[i]);
         
     return 0;
 }
