@@ -16,7 +16,7 @@ int main(int c, char **v)
 {
     signal(SIGINT, Handler); 
     
-    while(opt = getopt(c, v, "af")) != -1)
+    while(char opt = getopt(c, v, "af")) != -1)
         switch(c)
         {
             case 'c':
