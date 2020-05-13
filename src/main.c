@@ -36,7 +36,7 @@ int main(int c, char **v)
     int max_length = 200;
     int max_lines = 200;
         
-    char* input[max_size];
+    char* input[max_lines];
     
     if(optind == c)
     {
