@@ -37,21 +37,6 @@ int main(int c, char **v)
     int max_lines = 200;
         
     char* input[max_lines];
-    
-    if(optind == c)
-    {
-        get_input(max_length, max_lines, input);
-        puts(input);
-    }
-    else
-        for(int i = optind; i < c; i++)
-            puts(v[i]);
-        
-    return 0;
-}
-
-int get_input(int max_length, int max_lines, char **input)
-{
     char line_buf[max_length];
     int i;
     
@@ -59,4 +44,8 @@ int get_input(int max_length, int max_lines, char **input)
         fgets(line_buf, max_length, stdin);
         input[i] = strdup(line_buf);
     }
+    
+    puts(input);
+
+    return 0;
 }
