@@ -29,7 +29,7 @@ int main(int c, char **v)
                 break;
         }
         
-    for(int i = optind; i < argc; i++)
+    for(int i = optind; i < c; i++)
         printf(v[i]);
         
     return 0;
