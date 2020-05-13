@@ -45,7 +45,7 @@ int main(int c, char **v)
         input[i] = strdup(line_buf);
     }
     
-    for(i = 0; i < max_lines, i++){
+    for(i = 0; i < max_lines; i++){
         printf("%s\n", input[i]);
     }
 
