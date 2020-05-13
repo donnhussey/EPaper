@@ -50,7 +50,7 @@ int main(int c, char **v)
     return 0;
 }
 
-int get_input(int max_length, int max_lines char **input)
+int get_input(int max_length, int max_lines, char **input)
 {
     char line_buf[max_length];
     int i;
