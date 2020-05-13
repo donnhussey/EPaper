@@ -39,21 +39,23 @@ int main(int c, char **v)
     char* input[max_lines];
     char line_buf[max_length];
     int i;
-    int final_length = max_length;
+    int final_line_count = max_length;
     
     for(i = 0; i < max_lines; i++){
         if(fgets(line_buf, max_length, stdin) == -1)
         {
-            final_length = i;
+            final_line_count = i;
             break;
         }
         
         input[i] = strdup(line_buf);
     }
     
-    for(i = 0; i < final_length; i++){
-        printf("%s\n", input[i]);
-    }
+    printf("%d", final_line_count);
+    
+  //  for(i = 0; i < final_line_count; i++){
+   //     printf("%s\n", input[i]);
+    //}
 
     return 0;
 }
