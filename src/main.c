@@ -38,7 +38,7 @@ int main(int c, char **v)
     
     if(optind == c)
     {
-        get_input(max_size, &fullinput)
+        get_input(max_size, &fullinput);
         printf(fullinput);
     }
     else
