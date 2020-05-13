@@ -32,8 +32,15 @@ int main(int c, char **v)
                 break;
         }
         
+        
+    int max_size = 1000;    
+    char *fullinput = malloc(max_size * sizeof(char));
+    
     if(optind == c)
-        printf(get_input(1000));
+    {
+        get_input(max_size, &fullinput)
+        printf(fullinput);
+    }
     else
         for(int i = optind; i < c; i++)
             printf(v[i]);
@@ -41,9 +48,8 @@ int main(int c, char **v)
     return 0;
 }
 
-char *get_input(int max_size)
+int get_input(int max_size, char *fullinput)
 {
-    char fullinput[max_size];
     while(fgets(fullinput, max_size, stdin) != null);
     return fullinput;
 }
