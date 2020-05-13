@@ -53,9 +53,9 @@ int main(int c, char **v)
     
     printf("%d", final_line_count);
     
-  //  for(i = 0; i < final_line_count; i++){
-   //     printf("%s\n", input[i]);
-    //}
+    for(i = 0; i < final_line_count; i++){
+        printf("%s\n", input[i]);
+    }
 
     return 0;
 }
