@@ -34,7 +34,7 @@ int main(int c, char **v)
         
         
     int max_size = 1000;    
-    char *fullinput = malloc(max_size * sizeof(char));
+    char fullinput[max_size];
     
     if(optind == c)
     {
