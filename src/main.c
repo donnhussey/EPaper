@@ -1,6 +1,5 @@
 ﻿#include <stdlib.h>     //exit()
 #include <signal.h>     //signal()
-#include "Epaper.h"   //Examples
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
