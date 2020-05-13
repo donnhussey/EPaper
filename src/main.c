@@ -50,6 +50,6 @@ int main(int c, char **v)
 
 int get_input(int max_size, char *fullinput)
 {
-    while(fgets(fullinput, max_size, stdin) != null);
-    return fullinput;
+    while(fgets(fullinput, max_size, stdin) != NULL);
+    return 1;
 }
