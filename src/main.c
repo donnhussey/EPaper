@@ -40,7 +40,7 @@ int main(int c, char **v)
     
     if(optind == c)
     {
-        get_input(max_size, max_lines, input);
+        get_input(max_length, max_lines, input);
         puts(input);
     }
     else
