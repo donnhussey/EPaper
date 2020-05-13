@@ -18,21 +18,32 @@ int main(int c, char **v)
     
     int o;
     
-    while((o = getopt(c, v, "af")) != -1)
+    while((o = getopt(c, v, "cf:")) != -1)
         switch(o)
         {
             case 'c':
-                //clear
+                printf("clearing screen\n");
                 return 0;
             case 'f':
-                //set font
+                printf("setting font\n");
+                printf(optarg);
                 break;
             default:
                 break;
         }
         
-    for(int i = optind; i < c; i++)
-        printf(v[i]);
+    if(optind == c)
+        printf(get_input(1000));
+    else
+        for(int i = optind; i < c; i++)
+            printf(v[i]);
         
     return 0;
+}
+
+char *get_input(int max_size)
+{
+    char fullinput[max_size];
+    while(fgets(fullinput, max_size, stdin) != null);
+    return fullinput;
 }
