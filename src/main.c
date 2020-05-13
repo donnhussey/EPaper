@@ -42,7 +42,7 @@ int main(int c, char **v)
     int final_line_count = max_length;
     
     for(i = 0; i < max_lines; i++){
-        if(fgets(line_buf, max_length, stdin) == -1)
+        if(fgets(line_buf, max_length, stdin) == NULL)
         {
             final_line_count = i;
             break;
