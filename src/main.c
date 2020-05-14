@@ -70,11 +70,11 @@ int main(int c, char **v)
 }
 
 int GetRows(sFONT* font){ 
-    return EPD_2IN13_V2_HEIGHT / font.Height;
+    return EPD_2IN13_V2_HEIGHT / font->Height;
 }
 
 int GetCols(sFONT* font){
-    return EPD_2IN13_V2_WIDTH / font.Width;
+    return EPD_2IN13_V2_WIDTH / font->Width;
 }
 
 int GetTotalSize(sFONT* font){
