@@ -544,7 +544,8 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
         if ((Xpoint + Font->Width ) > Paint.Width) { //word wrap
             Xpoint = Xstart;
             Ypoint += Font->Height;
-        } else if(pString == '\n'){ //new line character recieved
+        } else if(*pString == '\n'){ //new line character recieved
+            printf("newline detected!")
             Xpoint = Xstart;
             Ypoint += Font->Height;
             pString++;
