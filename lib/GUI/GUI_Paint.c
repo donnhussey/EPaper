@@ -541,24 +541,24 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
     }
 
     while (* pString != '\0') {
-        //if X direction filled , reposition to(Xstart,Ypoint),Ypoint is Y direction plus the Height of the character
-        if ((Xpoint + Font->Width ) > Paint.Width ) {
+        if ((Xpoint + Font->Width ) > Paint.Width) { //word wrap
             Xpoint = Xstart;
             Ypoint += Font->Height;
+        } else if(pString == '\n'){ //new line character recieved
+            Xpoint = Xstart;
+            Ypoint += Font->Height;
+            pString++;
         }
-
-        // If the Y direction is full, reposition to(Xstart, Ystart)
-        if ((Ypoint  + Font->Height ) > Paint.Height ) {
+        
+        if ((Ypoint  + Font->Height ) > Paint.Height ) { //y is full, wrap around
             Xpoint = Xstart;
             Ypoint = Ystart;
         }
-        Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
-
-        //The next character of the address
-        pString ++;
-
-        //The next word of the abscissa increases the font of the broadband
-        Xpoint += Font->Width;
+        else {
+            Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
+            pString++;
+            Xpoint += Font->Width;
+        }
     }
 }
 
