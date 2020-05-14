@@ -52,7 +52,7 @@ int GetTotalSize(sFONT* font){
     return GetCols(font) * GetRows(font);
 }
 
-GetInput(int max_lines, int max_cols, char* inputBuffer){
+GetInput(int max_lines, int max_length, char* inputBuffer){
 
     int i;
     char line_buf[max_cols];
