@@ -545,7 +545,7 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
             Xpoint = Xstart;
             Ypoint += Font->Height;
         } else if(*pString == '\n'){ //new line character recieved
-            printf("newline detected!")
+            printf("newline detected!");
             Xpoint = Xstart;
             Ypoint += Font->Height;
             pString++;
