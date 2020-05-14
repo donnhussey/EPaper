@@ -69,14 +69,14 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(BlackImage);
 }
 
-int GetRows(sFONT font){ 
+int GetRows(sFONT* font){ 
     return EPD_2IN13_V2_HEIGHT / font.Height;
 }
 
-int GetCols(sFONT font){
+int GetCols(sFONT* font){
     return EPD_2IN13_V2_WIDTH / font.Width;
 }
 
-int GetTotalSize(sFONT font){
+int GetTotalSize(sFONT* font){
     return GetCols(&font) * GetRows(&font);
 }
