@@ -55,8 +55,7 @@ int GetTotalSize(sFONT* font){
 GetInput(int max_lines, int max_length, char* inputBuffer){
 
     int i;
-    char line_buf[max_cols];
-    char *input_lines[max_lines];
+    char line_buf[max_length];
 
     for(i = 0; i < max_lines; i++){
         if(fgets(line_buf, max_length, stdin) == NULL)
