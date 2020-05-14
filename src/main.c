@@ -57,13 +57,10 @@ int main(int c, char **v)
         printf("Failed to apply for black memory...\r\n");
         return -1;
     }
-    printf("Paint_NewImage\r\n");
-    Paint_NewImage(BlackImage, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
 
-    printf("attempting to hello world...\r\n");
+    Paint_NewImage(BlackImage, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawString_EN(1, 1, text, &Font16, WHITE, BLACK);
+    Paint_DrawString_EN(1, 1, text, &Font8, WHITE, BLACK);
     EPD_2IN13_V2_Display(BlackImage);
-    DEV_Delay_ms(10000);
 }
