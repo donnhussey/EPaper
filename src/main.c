@@ -39,6 +39,10 @@ int main(int c, char **v)
         strcat(text, input[i]);
     }
 
+    sFONT font = Font12;
+    if(strlen(text) > GetTotalSize(&font))
+        return -1;
+
     printf(text);
     printf("EPD_2IN13_V2_test Demo\r\n");
     if(DEV_Module_Init()!=0){
@@ -61,6 +65,18 @@ int main(int c, char **v)
     Paint_NewImage(BlackImage, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawPage(1, 1, text, &Font16, WHITE, BLACK);
+    Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
     EPD_2IN13_V2_Display(BlackImage);
+}
+
+int GetRows(sFONT font){ 
+    return EPD_2IN13_V2_HEIGHT / font.Height;
+}
+
+int GetCols(sFONT font){
+    return EPD_2IN13_V2_WIDTH / font.Width;
+}
+
+int GetTotalSize(sFONT){
+    return GetCols(sFONT) * GetRows(sFONT);
 }
