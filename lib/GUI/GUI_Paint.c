@@ -580,18 +580,17 @@ void Paint_DrawPage(UWORD Xstart, UWORD Ystart, const char * pString,
         } else if(*pString == '\n'){ //new line character recieved
             Xpoint = Xstart;
             Ypoint += Font->Height;
-            pString++;
+            continue;
         }
         
         if ((Ypoint  + Font->Height ) > Paint.Height ) { //y is full, wrap around
             Debug("Page height exceeded, results require paging\n");
             break;
         }
-        else {
-            Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
-            pString++;
-            Xpoint += Font->Width;
-        }
+        
+        Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
+        pString++;
+        Xpoint += Font->Width;
     }
 }
 
