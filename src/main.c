@@ -59,7 +59,8 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(BlackImage);
 
     Paint_DrawString_EN(140, 15, text, &Font16, BLACK, WHITE);
-     DEV_Module_Exit();
-     free(BlackImage);
+    EPD_2IN13_V2_Display(BlackImage);
+    DEV_Module_Exit();
+    free(BlackImage);
     return 0;
 }
