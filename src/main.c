@@ -77,6 +77,6 @@ int GetCols(sFONT font){
     return EPD_2IN13_V2_WIDTH / font.Width;
 }
 
-int GetTotalSize(sFONT){
-    return GetCols(sFONT) * GetRows(sFONT);
+int GetTotalSize(sFONT font){
+    return GetCols(sFONT font) * GetRows(sFONT font);
 }
