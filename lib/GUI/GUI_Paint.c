@@ -584,7 +584,7 @@ void Paint_DrawPage(UWORD Xstart, UWORD Ystart, const char * pString,
         }
         
         if ((Ypoint  + Font->Height ) > Paint.Height ) { //y is full, wrap around
-            Debug("Page height exceeded, results require paging");
+            Debug("Page height exceeded, results require paging\n");
             break;
         }
         else {
