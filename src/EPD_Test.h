@@ -36,6 +36,7 @@
 #include "ImageData.h"
 #include "Debug.h"
 #include <stdlib.h> // malloc() free()
+#include "EPD_2in13_V2.h"
 
 int EPD_2in13_V2_test(void);
 
