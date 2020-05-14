@@ -60,6 +60,7 @@ int main(int c, char **v)
 
     Paint_DrawString_EN(140, 15, text, &Font16, BLACK, WHITE);
     EPD_2IN13_V2_Display(BlackImage);
+    DEV_Delay_ms(2000);
     DEV_Module_Exit();
     free(BlackImage);
     return 0;
