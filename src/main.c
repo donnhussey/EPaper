@@ -61,6 +61,6 @@ int main(int c, char **v)
     Paint_NewImage(BlackImage, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawPage(1, 1, text, &Font8, WHITE, BLACK);
+    Paint_DrawPage(1, 1, text, &Font16, WHITE, BLACK);
     EPD_2IN13_V2_Display(BlackImage);
 }
