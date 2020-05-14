@@ -78,5 +78,5 @@ int GetCols(sFONT font){
 }
 
 int GetTotalSize(sFONT font){
-    return GetCols(sFONT font) * GetRows(sFONT font);
+    return GetCols(&font) * GetRows(&font);
 }
