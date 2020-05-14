@@ -59,10 +59,8 @@ GetInput(int max_lines, int max_cols, char* inputBuffer){
     char *input_lines[max_lines];
 
     for(i = 0; i < max_lines; i++){
-        if(fgets(line_buf, max_length, stdin) == NULL) {
-            final_line_count = i;
+        if(fgets(line_buf, max_length, stdin) == NULL)
             break;
-        }
         inputBuffer = strcat(inputBuffer, strdup(line_buf));
     } 
 }
