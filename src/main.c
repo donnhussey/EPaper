@@ -28,7 +28,7 @@ int main(int c, char **v)
     UBYTE *img_buf;
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
-    if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+    if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) {
         printf("Failed to apply for black memory...\r\n");
         return -1;
     }
