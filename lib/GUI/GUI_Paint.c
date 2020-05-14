@@ -562,6 +562,38 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
     }
 }
 
+void Paint_DrawPage(UWORD Xstart, UWORD Ystart, const char * pString,
+                         sFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
+{
+    UWORD Xpoint = Xstart;
+    UWORD Ypoint = Ystart;
+
+    if (Xstart > Paint.Width || Ystart > Paint.Height) {
+        Debug("Paint_DrawString_EN Input exceeds the normal display range\r\n");
+        return;
+    }
+
+    while (* pString != '\0') {
+        if ((Xpoint + Font->Width ) > Paint.Width) { //word wrap
+            Xpoint = Xstart;
+            Ypoint += Font->Height;
+        } else if(*pString == '\n'){ //new line character recieved
+            Xpoint = Xstart;
+            Ypoint += Font->Height;
+            pString++;
+        }
+        
+        if ((Ypoint  + Font->Height ) > Paint.Height ) { //y is full, wrap around
+            Debug("Page height exceeded, results require paging");
+        }
+        else {
+            Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
+            pString++;
+            Xpoint += Font->Width;
+        }
+    }
+}
+
 
 /******************************************************************************
 function: Display the string
