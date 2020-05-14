@@ -63,7 +63,7 @@ int main(int c, char **v)
     printf("attempting to hello world...\r\n");
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawString_EN(1, 1, "Hello, World!\r\nSecond Line!", &Font8, WHITE, BLACK);
+    Paint_DrawString_EN(1, 1, text, &Font16, WHITE, BLACK);
     EPD_2IN13_V2_Display(BlackImage);
     DEV_Delay_ms(10000);
 }
