@@ -11,8 +11,8 @@ int main(int c, char **v)
     signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int max_length = GetRows(font12); //max line length
-    int max_lines = GetCols(font12);  //max number of lines
+    int max_length = GetRows(font); //max line length
+    int max_lines = GetCols(font);  //max number of lines
     char text[GetTotalSize(font)];
     
     GetInput(max_lines, max_length, &text);
