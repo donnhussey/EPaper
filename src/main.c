@@ -53,7 +53,7 @@ void WriteInput(UBYTE img_buf, char *text, sFONT *font)
     printf("----------------------1-------------------------------");
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-        printf("----------------------2-------------------------------")
+        printf("----------------------2-------------------------------");
     Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
 }
