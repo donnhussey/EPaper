@@ -27,7 +27,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "EPD_Test.h"
+#include "epaper.h"
 #include "EPD_2in13_V2.h"
 
 int EPD_2in13_V2_test(void)
@@ -107,8 +107,8 @@ int EPD_2in13_V2_test(void)
     Paint_DrawString_EN(140, 15, "waveshare", &Font16, BLACK, WHITE);
     Paint_DrawNum(140, 40, 123456789, &Font16, BLACK, WHITE);
 
-    Paint_DrawString_CN(140, 60, "ÄãºÃabc", &Font12CN, BLACK, WHITE);
-    Paint_DrawString_CN(5, 65, "Î¢Ñ©µç×Ó", &Font24CN, WHITE, BLACK);
+    Paint_DrawString_CN(140, 60, "ï¿½ï¿½ï¿½abc", &Font12CN, BLACK, WHITE);
+    Paint_DrawString_CN(5, 65, "Î¢Ñ©ï¿½ï¿½ï¿½ï¿½", &Font24CN, WHITE, BLACK);
 
     EPD_2IN13_V2_Display(BlackImage);
     DEV_Delay_ms(2000);
