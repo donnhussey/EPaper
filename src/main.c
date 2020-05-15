@@ -26,8 +26,7 @@ int main(int c, char **v)
         return -1;
     }
     
-    //GetInput(max_lines, max_length, &text);
-    text = "test text 3";
+    GetInput(max_lines, max_length, &text);
     WriteInput(img_buf, text, &font);
     free(img_buf);
     DEV_Module_Exit();
