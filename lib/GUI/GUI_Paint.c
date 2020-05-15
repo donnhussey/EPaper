@@ -568,6 +568,8 @@ void Paint_DrawPage(UWORD Xstart, UWORD Ystart, const char * pString,
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
 
+    printf(pString);
+
     if (Xstart > Paint.Width || Ystart > Paint.Height) {
         Debug("Paint_DrawString_EN Input exceeds the normal display range\r\n");
         return;
