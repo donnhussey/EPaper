@@ -51,7 +51,7 @@ int GetCols(sFONT font){
 }
 
 int GetTotalSize(sFONT font){
-    return GetCols(font) * GetRows(font);
+    return GetCols(&font) * GetRows(&font);
 }
 
 GetInput(int max_lines, int max_length, char* inputBuffer){
