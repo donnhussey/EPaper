@@ -1,5 +1,5 @@
 ﻿#include "epaper.h"
-//try again...
+//try again...2
 
 void  Handler(int signo)
 {
