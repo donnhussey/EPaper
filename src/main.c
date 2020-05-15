@@ -11,9 +11,9 @@ int main(int c, char **v)
     signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int max_length = GetRows(font); //max line length
-    int max_lines = GetCols(font);  //max number of lines
-    char text[GetTotalSize(font)];
+    int max_length = GetRows(&font); //max line length
+    int max_lines = GetCols(&font);  //max number of lines
+    char text[GetTotalSize(&font)];
     
     GetInput(max_lines, max_length, &text);
 
@@ -40,17 +40,17 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(img_buf);
 }
 
-int GetRows(sFONT* font){ 
+int GetRows(sFONT font){ 
     printf("Height: %i\n", font->Height);
     return EPD_2IN13_V2_HEIGHT / font->Height;
 }
 
-int GetCols(sFONT* font){
+int GetCols(sFONT font){
     printf("Width: %i\n", font->Width);
     return EPD_2IN13_V2_WIDTH / font->Width;
 }
 
-int GetTotalSize(sFONT* font){
+int GetTotalSize(sFONT font){
     return GetCols(font) * GetRows(font);
 }
 
