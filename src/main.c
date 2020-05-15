@@ -40,7 +40,7 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(img_buf);
     */
 
-    WriteInput(&img_buf, text, &font);
+    WriteInput(img_buf, text, &font);
 
     free(img_buf);
     return 0;
@@ -65,7 +65,7 @@ void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
     printf("--2--\n");
     EPD_2IN13_V2_Clear();
     printf("--3--\n");
-    Paint_NewImage(&img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     printf("--4--\n");
     Paint_SelectImage(img_buf);
     printf("--5--\n");
