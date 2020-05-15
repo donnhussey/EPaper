@@ -28,6 +28,7 @@ int main(int c, char **v)
     
     GetInput(max_lines, max_length, &text);
 
+    /*
     if(DEV_Module_Init()!=0) return -1;
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
@@ -37,6 +38,9 @@ int main(int c, char **v)
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, text, &font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
+    */
+   
+    WriteInput(&img_buf, &text, &font);
 
     free(img_buf);
     return 0;
@@ -54,20 +58,13 @@ void GetInput(int max_lines, int max_length, char* inputBuffer)
 
 void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
 {
-    /*
-    printf("----------------------0-------------------------------");
-    if(DEV_Module_Init()!=0)  return -1;
-    printf("----------------------1-------------------------------");
+    if(DEV_Module_Init()!=0) return -1;
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    printf("----------------------2-------------------------------");
     EPD_2IN13_V2_Clear();
-    printf("----------------------3-------------------------------");
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
-    printf("----------------------4-------------------------------");
-    Paint_Clear(WHITE);
+    Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    printf("----------------------5-------------------------------");
-    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
+    Paint_Clear(WHITE);
+    Paint_DrawString_EN(1, 1, text, &font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
-    */
 }
