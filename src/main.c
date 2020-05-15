@@ -1,6 +1,4 @@
 ﻿#include "epaper.h"
-//testing hook15
-
 
 void  Handler(int signo)
 {
@@ -28,7 +26,8 @@ int main(int c, char **v)
         return -1;
     }
     
-    GetInput(max_lines, max_length, &text);
+    //GetInput(max_lines, max_length, &text);
+    text = "test text";
     WriteInput(img_buf, text, &font);
     free(img_buf);
     DEV_Module_Exit();
