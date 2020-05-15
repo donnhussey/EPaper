@@ -27,7 +27,7 @@ int main(int c, char **v)
     }
     
     GetInput(max_lines, max_length, &text);
-    WriteInput(img_buf, text);
+    WriteInput(img_buf, text, font);
     free(img_buf);
 
     return 0;
@@ -43,7 +43,7 @@ void GetInput(int max_lines, int max_length, char* inputBuffer)
     printf(inputBuffer);
 }
 
-void WriteInput(UBYTE img_buf, char *text)
+void WriteInput(UBYTE img_buf, char *text, sFONT font)
 {
     if(DEV_Module_Init()!=0)  return -1;
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
