@@ -16,3 +16,5 @@
 #include <string.h>
 
 #endif
+
+void GetInput(int, int, char*);

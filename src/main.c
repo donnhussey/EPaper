@@ -11,8 +11,9 @@ int main(int c, char **v)
     signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int max_length = GetRows(&font); //max line length
-    int max_lines = GetCols(&font);  //max number of lines
+    int max_length = EPD_2IN13_V2_WIDTH / font.Width;
+    int max_lines = EPD_2IN13_V2_HEIGHT / font.Height;
+    int total_size = max_length * max_lines; 
     char text[GetTotalSize(&font)];
     
     GetInput(max_lines, max_length, &text);
@@ -40,22 +41,8 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(img_buf);
 }
 
-int GetRows(sFONT font){ 
-    printf("Height: %i\n", font.Height);
-    return EPD_2IN13_V2_HEIGHT / font.Height;
-}
-
-int GetCols(sFONT font){
-    printf("Width: %i\n", font.Width);
-    return EPD_2IN13_V2_WIDTH / font.Width;
-}
-
-int GetTotalSize(sFONT font){
-    return GetCols(font) * GetRows(font);
-}
-
-GetInput(int max_lines, int max_length, char* inputBuffer){
-
+void GetInput(int max_lines, int max_length, char* inputBuffer)
+{
     int i;
     char line_buf[max_length];
 
