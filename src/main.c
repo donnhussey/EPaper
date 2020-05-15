@@ -38,6 +38,7 @@ int main(int c, char **v)
     printf("----------------------3-------------------------------\n");
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     printf("----------------------4-------------------------------\n");
+    Paint_SelectImage(img_buf);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     printf("----------------------5-------------------------------\n");
