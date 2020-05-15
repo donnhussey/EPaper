@@ -41,10 +41,12 @@ int main(int c, char **v)
 }
 
 int GetRows(sFONT* font){ 
+    printf("Height: %i\n", font->Height)
     return EPD_2IN13_V2_HEIGHT / font->Height;
 }
 
 int GetCols(sFONT* font){
+    printf("Width: %i\n", font->Width)
     return EPD_2IN13_V2_WIDTH / font->Width;
 }
 
