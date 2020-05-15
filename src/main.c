@@ -46,5 +46,5 @@ void GetInput(int max_lines, int max_length, char* inputBuffer)
     char line_buf[max_length];
     for(int i = 0; i < max_lines && fgets(line_buf, max_length, stdin) != NULL; i++)
         inputBuffer = strcat(inputBuffer, strdup(line_buf));
-    printf(inputbuffer);
+    printf(inputBuffer);
 }
