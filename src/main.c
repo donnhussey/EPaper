@@ -27,7 +27,7 @@ int main(int c, char **v)
     }
     
     //GetInput(max_lines, max_length, &text);
-    text = "test text";
+    text = "test text 2";
     WriteInput(img_buf, text, &font);
     free(img_buf);
     DEV_Module_Exit();
