@@ -14,7 +14,7 @@ int main(int c, char **v)
     int max_length = EPD_2IN13_V2_WIDTH / font.Width;
     int max_lines = EPD_2IN13_V2_HEIGHT / font.Height;
     int total_size = max_length * max_lines; 
-    char text[GetTotalSize(&font)];
+    char text[total_size];
     
     GetInput(max_lines, max_length, &text);
 
