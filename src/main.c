@@ -51,6 +51,6 @@ void WriteInput(UBYTE img_buf, char *text)
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
-    EPD_2IN13_V2_Display(img_buf);
+    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
+    EPD_2IN13_V2_Display(*img_buf);
 }
