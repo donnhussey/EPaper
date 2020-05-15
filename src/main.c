@@ -49,14 +49,16 @@ void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
 {
     printf("----------------------0-------------------------------");
     if(DEV_Module_Init()!=0)  return -1;
-    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    EPD_2IN13_V2_Clear();
     printf("----------------------1-------------------------------");
-    Paint_NewImage(&img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     printf("----------------------2-------------------------------");
+    EPD_2IN13_V2_Clear();
+    printf("----------------------3-------------------------------");
+    Paint_NewImage(&img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    printf("----------------------4-------------------------------");
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    printf("----------------------3-------------------------------");
+    printf("----------------------5-------------------------------");
     Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
 }
