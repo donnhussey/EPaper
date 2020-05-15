@@ -73,7 +73,7 @@ void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
     printf("--6--\n");
     Paint_Clear(WHITE);
     printf("--7--\n");
-    Paint_DrawString_EN(1, 1, &text, &font, WHITE, BLACK);
+    Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
     printf("--8--\n");
     EPD_2IN13_V2_Display(img_buf);
 }
