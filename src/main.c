@@ -28,7 +28,7 @@ int main(int c, char **v)
     
     GetInput(max_lines, max_length, &text);
     //WriteInput(&img_buf, &text, &font);
-
+    printf(text);
     printf("----------------------0-------------------------------\n");
     if(DEV_Module_Init()!=0)  return -1;
     printf("----------------------1-------------------------------\n");
