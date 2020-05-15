@@ -28,13 +28,16 @@ int main(int c, char **v)
     
     GetInput(max_lines, max_length, &text);
 
+
+    if(DEV_Module_Init()!=0) return -1;
+
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_SelectImage(img_buf);
-    Paint_SetMirroring(MIRROR_HORIZONTAL); //
+    Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
-    Paint_DrawString_EN(140, 15, "waveshare", &Font12, BLACK, WHITE);
+    Paint_DrawString_EN(1, 1, "waveshare", &Font12, BLACK, WHITE);
     EPD_2IN13_V2_Display(img_buf);
 
     free(img_buf);
