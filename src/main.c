@@ -1,5 +1,5 @@
 ﻿#include "epaper.h"
-//testing hook!
+//testing hook2
 
 
 void  Handler(int signo)
