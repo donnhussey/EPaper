@@ -26,10 +26,24 @@ int main(int c, char **v)
         return -1;
     }
     
-    printf("+++++++++1");
     GetInput(max_lines, max_length, &text);
-    printf("+++++++++2");
-    WriteInput(&img_buf, &text, &font);
+    //WriteInput(&img_buf, &text, &font);
+
+    printf("----------------------0-------------------------------");
+    if(DEV_Module_Init()!=0)  return -1;
+    printf("----------------------1-------------------------------");
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    printf("----------------------2-------------------------------");
+    EPD_2IN13_V2_Clear();
+    printf("----------------------3-------------------------------");
+    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    printf("----------------------4-------------------------------");
+    Paint_Clear(WHITE);
+    Paint_SetMirroring(MIRROR_HORIZONTAL);
+    printf("----------------------5-------------------------------");
+    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
+    EPD_2IN13_V2_Display(img_buf);
+
     free(img_buf);
 
     return 0;
