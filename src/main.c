@@ -15,6 +15,7 @@ int main(int c, char **v)
     int max_lines = EPD_2IN13_V2_HEIGHT / font.Height;
     int total_size = max_length * max_lines; 
     char text[total_size];
+    strcpy(text, "");
     
     GetInput(max_lines, max_length, &text);
 
@@ -39,13 +40,15 @@ int main(int c, char **v)
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
+    free(img_buf);
+
+    return 0;
 }
 
 void GetInput(int max_lines, int max_length, char* inputBuffer)
 {
     char line_buf[max_length];
     strcpy(line_buf, "");
-    strcpy(inputBuffer, "");
 
     for(int i = 0; i < max_lines && fgets(line_buf, max_length, stdin) != NULL; i++)
         inputBuffer = strcat(inputBuffer, strdup(line_buf));
