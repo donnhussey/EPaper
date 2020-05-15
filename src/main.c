@@ -40,7 +40,7 @@ int main(int c, char **v)
     EPD_2IN13_V2_Display(img_buf);
     */
 
-    WriteInput(&img_buf, &text, &font);
+    WriteInput(img_buf, text, &font);
 
     free(img_buf);
     return 0;
