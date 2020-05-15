@@ -48,9 +48,9 @@ void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
     if(DEV_Module_Init()!=0)  return -1;
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
-    Paint_NewImage(&img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_Clear(WHITE);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawPage(1, 1, &text, &font, WHITE, BLACK);
-    EPD_2IN13_V2_Display(&img_buf);
+    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
+    EPD_2IN13_V2_Display(img_buf);
 }
