@@ -28,7 +28,8 @@ int main(int c, char **v)
     
     GetInput(max_lines, max_length, &text);
 
-    printf("Paint_NewImage\r\n");
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL); //
