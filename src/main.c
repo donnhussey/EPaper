@@ -17,15 +17,6 @@ int main(int c, char **v)
     char text[total_size];
     strcpy(text, "");
     
-    GetInput(max_lines, max_length, &text);
-
-    if(DEV_Module_Init()!=0){
-        return -1;
-    }
-
-    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    EPD_2IN13_V2_Clear();
-
     //Create a new image cache
     UBYTE *img_buf;
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
@@ -34,12 +25,9 @@ int main(int c, char **v)
         printf("Failed to apply for black memory...\r\n");
         return -1;
     }
-
-    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
-    Paint_Clear(WHITE);
-    Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
-    EPD_2IN13_V2_Display(img_buf);
+    
+    GetInput(max_lines, max_length, &text);
+    WriteInput(img_buf, text);
     free(img_buf);
 
     return 0;
@@ -53,4 +41,16 @@ void GetInput(int max_lines, int max_length, char* inputBuffer)
     for(int i = 0; i < max_lines && fgets(line_buf, max_length, stdin) != NULL; i++)
         inputBuffer = strcat(inputBuffer, strdup(line_buf));
     printf(inputBuffer);
+}
+
+void WriteInput(UBYTE img_buf, char *text)
+{
+    if(DEV_Module_Init()!=0)  return -1;
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
+    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    Paint_Clear(WHITE);
+    Paint_SetMirroring(MIRROR_HORIZONTAL);
+    Paint_DrawPage(1, 1, text, &font, WHITE, BLACK);
+    EPD_2IN13_V2_Display(img_buf);
 }
