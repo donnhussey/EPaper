@@ -35,7 +35,7 @@ int main(int c, char **v)
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
-    Paint_DrawString_EN(1, 1, text, font, WHITE, BLACK);
+    Paint_DrawString_EN(1, 1, text, &font, WHITE, BLACK);
     EPD_2IN13_V2_Display(img_buf);
 
     free(img_buf);
