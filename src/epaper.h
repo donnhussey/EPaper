@@ -18,3 +18,4 @@
 #endif
 
 void GetInput(int, int, char*);
+void WriteInput(UBYTE*, char*, sFONT*);
