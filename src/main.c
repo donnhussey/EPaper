@@ -25,7 +25,7 @@ int main(int c, char **v)
         return -1;
     }
     
-    GetInput(max_lines, max_length, &text);
+    GetInput(total_size, &text);
     printf(text);
     //pages = PageInput(total_size, 5, text);
     //PrintPagedInput(5, pages);
