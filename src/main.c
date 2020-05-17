@@ -12,15 +12,13 @@ int main(int c, char **v)
     signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int max_length = EPD_2IN13_V2_WIDTH / font.Width;
-    int max_lines = EPD_2IN13_V2_HEIGHT / font.Height;
-    int total_size = max_length * max_lines; 
+    int total_size = GetBufferLength(&font);
     char text[total_size];
+    char **pages;
     strcpy(text, "");
+    int page_count = 0;
     
-    //Create a new image cache
     UBYTE *img_buf;
-    /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
     if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) {
         printf("Failed to apply for black memory...\r\n");
@@ -28,18 +26,54 @@ int main(int c, char **v)
     }
     
     GetInput(max_lines, max_length, &text);
-    WriteInput(img_buf, text, &font);
+    printf(text);
+    //pages = PageInput(total_size, 5, text);
+    //PrintPagedInput(5, pages);
+    //WriteInput(img_buf, text, &font);
     free(img_buf);
     DEV_Module_Exit();
     return 0;
 }
 
-void GetInput(int max_lines, int max_length, char* inputBuffer)
+void GetInput(int buf_size, char* inputBuffer)
 {
-    char line_buf[max_length];
-    for(int i = 0; i < max_lines && fgets(line_buf, max_length, stdin) != NULL; i++)
+    char line_buf[buf_size];
+    for(fgets(line_buf, max_length, stdin) != NULL 
+     && buf_size < strlen(inputBuffer) + strlen(line_buf))
         inputBuffer = strcat(inputBuffer, strdup(line_buf));
-    printf(inputBuffer);
+}
+
+
+char** PageInput(int bufferLength, int max_pages, char *input)
+{
+    int i, j;
+    char *paged_input[max_pages];
+
+    for (i = 0; i < max_pages && input != '\0'; i++){ //page loop
+
+        if(!paged_input[i] = malloc(buffer_length * sizeof(char)))
+            exit(-1);
+
+        for(j = 0; j < bufferLength; j++){ //character loop
+            paged_input[i][j] = input;
+            
+            if(input == '\0')
+                break;
+
+            *input++;
+        }
+    }
+}
+
+void PrintPagedInput(int maxPages, char **text){
+
+    int i;
+    for(i = 0; i < maxPages, i++)
+        printf(text[i]);
+}
+ 
+int GetBufferLength(sFONT *font){
+    return  (int)((EPD_2IN13_V2_WIDTH / font.Width) * (EPD_2IN13_V2_HEIGHT / font.Height));  
 }
 
 void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
