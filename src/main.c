@@ -38,11 +38,12 @@ int main(int c, char **v)
         pages[page_count++] = Render(page, &font);
     }while(*input_pos != '\0');
 
-    printf("%i", page_position);
+    printf("%i", page_count);
 
     int current_page;
-    for(current_page = 0; current_page < page_position-1; current_page++){
+    for(current_page = 0; current_page < page_count; current_page++){
         Display(pages[current_page]);
+        printf("displaying page %i and sleeping..." current_page);
         sleep(10);
     }
 
