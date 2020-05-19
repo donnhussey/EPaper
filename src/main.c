@@ -43,7 +43,7 @@ int main(int c, char **v)
     int current_page;
     for(current_page = 0; current_page < page_count; current_page++){
         Display(pages[current_page]);
-        printf("displaying page %i and sleeping..." current_page);
+        printf("displaying page %i and sleeping...", current_page);
         sleep(10);
     }
 
