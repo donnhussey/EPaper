@@ -28,11 +28,10 @@ int main(int c, char **v)
     strcpy(text, "");
     strcpy(page, "");
 
-    GetInput(total_size, &text);
-
+    GetInput(total_size, text);
 
     do{
-        for(page_position = 0; page_position < max_lines && input_pos != '\0'; page_position++){
+        for(page_position = 0; page_position < max_lines && *input_pos != '\0'; page_position++){
                 input_pos = GetNextLine(next_line, input_pos, max_line_length);
                 strcat(page, next_line);
         }
@@ -41,35 +40,35 @@ int main(int c, char **v)
 
     int current_page;
     for(current_page = 0; current_page < page_position; current_page++){
-        Display(*pages[current_page]);
-        delay(10 * 1000);
+        Display(pages[current_page]);
+        sleep(10);
     }
 
 
 }
 
-void GetInput(int buf_size, char* inputBuffer)
+void GetInput(int buf_size, char *input_buf)
 {
     char line_buf[buf_size];
     while(fgets(line_buf, buf_size, stdin) != NULL 
-     && buf_size > strlen(inputBuffer) + strlen(line_buf))
-        inputBuffer = strcat(inputBuffer, strdup(line_buf));
+     && buf_size > strlen(input_buf) + strlen(line_buf))
+        input_buf = strcat(input_buf, strdup(line_buf));
 }
+
+
 
 UBYTE* Render(char page_content[], sFONT *font)
 {
     UBYTE *img_buf;
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
-    if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) {
-        printf("Failed to apply for black memory...\r\n");
-        return -1;
-    }
+    if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) exit(1);
+    
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
-    return *img_buf;
+    return img_buf;
 }
 
 char *GetNextLine(char output[], char *input, int max_line_length)
