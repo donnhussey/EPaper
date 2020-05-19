@@ -22,7 +22,7 @@ int main(int c, char **v)
     char text[total_size];
     char next_line[max_line_length];
     char *input_pos = text;
-    char *page;
+    char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
 
     strcpy(text, "");
@@ -97,8 +97,10 @@ char *GetNextLine(char output[], char *input, int max_line_length)
 
 void Display(UBYTE *img_buf)
 {
+    /*
     if(DEV_Module_Init()!=0) return -1;
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
     EPD_2IN13_V2_Display(img_buf);
+    */
 }
