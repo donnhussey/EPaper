@@ -38,16 +38,7 @@ int main(int c, char **v)
         pages[page_count++] = Render(page, &font);
     }while(*input_pos != '\0');
 
-    printf("%i", page_count);
-
-    int current_page;
-    for(current_page = 0; current_page < page_count; current_page++){
-        Display(pages[current_page]);
-        printf("displaying page %i and sleeping...", current_page);
-        sleep(10);
-    }
-
-
+    Display(pages, page_count);
 }
 
 void GetInput(int buf_size, char *input_buf)
@@ -97,10 +88,18 @@ char *GetNextLine(char output[], char *input, int max_line_length)
     return input;
 }
 
-void Display(UBYTE *img_buf)
+void Display(UBYTE *img_bufs[], int page_count)
 {
-    if(DEV_Module_Init()!=0) exit(1);
+    if(DEV_Module_Init()!=0) exit(1); //initialize display
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    EPD_2IN13_V2_Clear();
-    EPD_2IN13_V2_Display(img_buf);
+
+    int current_page = 0;
+
+    for(current_page = 0; current_page < page_count; current_page++)
+    {
+        EPD_2IN13_V2_Clear();
+        EPD_2IN13_V2_Display(img_bufs[current_page]);
+        sleep(5);
+    }
+
 }

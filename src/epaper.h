@@ -17,6 +17,6 @@
 #endif
 
 void GetInput(int buf_size, char* inputBuffer);
-void Display(UBYTE *img_buf);
+void Display(UBYTE *img_bufs[], int page_count);
 char *GetNextLine(char output[], char *input, int max_line_length);
 UBYTE* Render(char *page_content, sFONT *font);
