@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 
-//forcepush
-
 void  Handler(int signo)
 {
     DEV_Module_Exit();
@@ -100,10 +98,8 @@ char *GetNextLine(char output[], char *input, int max_line_length)
 
 void Display(UBYTE *img_buf)
 {
-    /*
-    if(DEV_Module_Init()!=0) return -1;
+    if(DEV_Module_Init()!=0) exit(1);
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
     EPD_2IN13_V2_Display(img_buf);
-    */
 }
