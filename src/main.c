@@ -40,6 +40,8 @@ int main(int c, char **v)
         pages[page_count++] = Render(page, &font);
     }while(*input_pos != '\0');
 
+    printf("%i", page_position);
+
     int current_page;
     for(current_page = 0; current_page < page_position; current_page++){
         Display(pages[current_page]);
