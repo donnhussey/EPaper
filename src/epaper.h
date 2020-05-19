@@ -17,5 +17,7 @@
 
 #endif
 
-void GetInput(int, int, char*);
-void WriteInput(UBYTE*, char*, sFONT*);
+void GetInput(int buf_size, char* inputBuffer);
+void Display(UBYTE *img_buf);
+char *GetNextLine(char output[], char *input, int max_line_length);
+UBYTE* Render(char *page_content, sFONT *font);

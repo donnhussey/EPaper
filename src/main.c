@@ -1,5 +1,6 @@
 ﻿#include "epaper.h"
-//try again...6
+#include <string.h>
+#include <stdio.h>
 
 void  Handler(int signo)
 {
@@ -9,82 +10,95 @@ void  Handler(int signo)
 
 int main(int c, char **v)
 {
-    signal(SIGINT, Handler); 
+    //signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int total_size = GetBufferLength(&font);
-    char text[total_size];
-    char **pages;
-    strcpy(text, "");
+    int max_page_count = 5;
+    int max_line_length = (int)(EPD_2IN13_V2_WIDTH / font.Width) ;
+    int max_lines = (int)(EPD_2IN13_V2_HEIGHT / font.Height);  
+    int total_size = max_page_count * max_line_length * max_lines;
+    int page_position = 0;
     int page_count = 0;
-    
+    char text[total_size];
+    char next_line[max_line_length];
+    char *input_pos = text;
+    char *page;
+    UBYTE *pages[max_page_count];
+
+    strcpy(text, "");
+    strcpy(page, "");
+
+    GetInput(total_size, &text);
+
+
+    do{
+        for(page_position = 0; page_position < max_lines && input_pos != '\0'; page_position++){
+                input_pos = GetNextLine(next_line, input_pos, max_line_length);
+                strcat(page, next_line);
+        }
+        pages[page_count++] = Render(page, &font);
+    }while(*input_pos != '\0');
+
+    int current_page;
+    for(current_page = 0; current_page < page_position; current_page++){
+        Display(pages[current_page]);
+        delay(10 * 1000);
+    }
+
+
+}
+
+void GetInput(int buf_size, char* inputBuffer)
+{
+    char line_buf[buf_size];
+    while(fgets(line_buf, buf_size, stdin) != NULL 
+     && buf_size > strlen(inputBuffer) + strlen(line_buf))
+        inputBuffer = strcat(inputBuffer, strdup(line_buf));
+}
+
+UBYTE* Render(char page_content[], sFONT *font)
+{
     UBYTE *img_buf;
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
     if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) {
         printf("Failed to apply for black memory...\r\n");
         return -1;
     }
-    
-    GetInput(total_size, &text);
-    printf(text);
-    //pages = PageInput(total_size, 5, text);
-    //PrintPagedInput(5, pages);
-    //WriteInput(img_buf, text, &font);
-    free(img_buf);
-    DEV_Module_Exit();
-    return 0;
-}
-
-void GetInput(int buf_size, char* inputBuffer)
-{
-    char line_buf[buf_size];
-    for(fgets(line_buf, max_length, stdin) != NULL 
-     && buf_size < strlen(inputBuffer) + strlen(line_buf))
-        inputBuffer = strcat(inputBuffer, strdup(line_buf));
-}
-
-
-char** PageInput(int bufferLength, int max_pages, char *input)
-{
-    int i, j;
-    char *paged_input[max_pages];
-
-    for (i = 0; i < max_pages && input != '\0'; i++){ //page loop
-
-        if(!paged_input[i] = malloc(buffer_length * sizeof(char)))
-            exit(-1);
-
-        for(j = 0; j < bufferLength; j++){ //character loop
-            paged_input[i][j] = input;
-            
-            if(input == '\0')
-                break;
-
-            *input++;
-        }
-    }
-}
-
-void PrintPagedInput(int maxPages, char **text){
-
-    int i;
-    for(i = 0; i < maxPages, i++)
-        printf(text[i]);
-}
- 
-int GetBufferLength(sFONT *font){
-    return  (int)((EPD_2IN13_V2_WIDTH / font.Width) * (EPD_2IN13_V2_HEIGHT / font.Height));  
-}
-
-void WriteInput(UBYTE *img_buf, char *text, sFONT *font)
-{
-    if(DEV_Module_Init()!=0) return -1;
-    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    EPD_2IN13_V2_Clear();
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
-    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
+    Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
+    return *img_buf;
+}
+
+char *GetNextLine(char output[], char *input, int max_line_length)
+{
+    char *start = input;
+    int count = 0;
+
+    while(*input != '\n' && *input != '\0' && count++ < max_line_length)
+        input++;
+
+    input++;
+    count++;
+
+    strncpy(output, start, count);
+
+    if(count-1 == max_line_length){
+        count--;
+        input -= 2;
+        output[count-1] = '\n';
+    }
+
+    output[count] = '\0'; //strncopy does not null terminate!
+    return input;
+}
+
+void Display(UBYTE *img_buf)
+{
+    if(DEV_Module_Init()!=0) return -1;
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
     EPD_2IN13_V2_Display(img_buf);
 }
