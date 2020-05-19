@@ -1,6 +1,3 @@
-#ifndef _EPD_TEST_H_
-#define _EPD_TEST_H_
-
 #include "DEV_Config.h"
 #include "GUI_Paint.h"
 #include "GUI_BMPfile.h"
@@ -14,7 +11,6 @@
 #include <unistd.h>
 #include <string.h>
 
-#endif
-
-void GetInput(int, int, char*);
-void WriteInput(UBYTE*, char*, sFONT*);
+void  Handler(int signo);
+void GetInput(int max_lines, int max_length, char* inputBuffer);
+void WriteInput(UBYTE *img_buf, char *text, sFONT *font);

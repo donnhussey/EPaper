@@ -1,5 +1,4 @@
 ﻿#include "epaper.h"
-//try again...5
 
 void  Handler(int signo)
 {
@@ -18,9 +17,7 @@ int main(int c, char **v)
     char text[total_size];
     strcpy(text, "");
     
-    //Create a new image cache
     UBYTE *img_buf;
-    /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
     if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) {
         printf("Failed to apply for black memory...\r\n");
