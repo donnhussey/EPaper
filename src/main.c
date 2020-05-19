@@ -41,7 +41,7 @@ int main(int c, char **v)
     printf("%i", page_position);
 
     int current_page;
-    for(current_page = 0; current_page < page_position; current_page++){
+    for(current_page = 0; current_page < page_position-1; current_page++){
         Display(pages[current_page]);
         sleep(10);
     }
@@ -65,7 +65,7 @@ UBYTE* Render(char page_content[], sFONT *font)
     UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
     if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) exit(1);
     
-    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 270, WHITE);
+    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
