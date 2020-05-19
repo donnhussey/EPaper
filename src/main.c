@@ -36,12 +36,12 @@ int main(int c, char **v)
                 input_pos = GetNextLine(next_line, input_pos, max_line_length);
                 strcat(page, next_line);
         }
-        pages[page_count++] = Render(*page, &font);
+        pages[page_count++] = Render(page, &font);
     }while(*input_pos != '\0');
 
     int current_page;
     for(current_page = 0; current_page < page_position; current_page++){
-        Display(pages[current_page]);
+        Display(*pages[current_page]);
         delay(10 * 1000);
     }
 
