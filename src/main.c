@@ -90,12 +90,12 @@ void Display(UBYTE *img_bufs[], int page_count)
 {
     if(DEV_Module_Init()!=0) exit(1); //initialize display
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
 
     int current_page = 0;
 
     for(current_page = 0; current_page < page_count; current_page++)
     {
-        EPD_2IN13_V2_Clear();
         EPD_2IN13_V2_Display(img_bufs[current_page]);
         sleep(5);
     }
