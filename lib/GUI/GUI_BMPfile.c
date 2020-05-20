@@ -60,7 +60,7 @@ UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
 
     // Binary file open
     if((fp = fopen(path, "rb")) == NULL) {
-        Debug("Cann't open the file!\n");
+        Debug("Can't open the file!\n");
         exit(0);
     }
 
