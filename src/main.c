@@ -89,7 +89,7 @@ void Display(int timeout)
 {
     int pid = fork();
 
-    if(pid = -1)
+    if(pid == -1)
         exit(1);
     else if(pid > 0)
         return;
