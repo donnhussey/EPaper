@@ -1,17 +1,11 @@
 ﻿#include "epaper.h"
-#include <string.h>
-#include <stdio.h>
 
-void  Handler(int signo)
-{
-    DEV_Module_Exit();
-    exit(0);
-}
+UBYTE **img_bufs;
+int page_count;
+UWORD img_buf_size;
 
 int main(int c, char **v)
 {
-    signal(SIGINT, Handler); 
-    
     sFONT font = Font12;
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
@@ -19,17 +13,21 @@ int main(int c, char **v)
     int total_size = max_page_count * max_line_length * max_lines;
     int page_position = 0;
     int page_count = 0;
+    int offset = 0;
     char text[total_size];
     char next_line[max_line_length];
     char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
 
+    img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
+
     strcpy(text, "");
 
     GetInput(total_size, text);
 
-    int offset = 0;
-        
+    
+
+    //break input into lines, break lines into pages, build images to display
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
@@ -37,10 +35,10 @@ int main(int c, char **v)
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
-        printf("--page %i rendered-- \n%s\n", page_count, page);
     }while(offset != -1);
 
-    Display(pages, page_count);
+    img_bufs = pages;
+    Display(5);
 }
 
 
@@ -56,8 +54,8 @@ void GetInput(int buf_size, char *input_buf)
 UBYTE* Render(char page_content[], sFONT *font)
 {
     UBYTE *img_buf;
-    UWORD Imagesize = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT;    
-    if((img_buf = (UBYTE *)malloc(Imagesize)) == NULL) exit(1);
+       
+    if((img_buf = (UBYTE *)malloc(img_buf_size)) == NULL) exit(1);
     
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
     Paint_SelectImage(img_buf);
@@ -86,18 +84,48 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
         return input_offset + count;
 }
 
-void Display(UBYTE *img_bufs[], int page_count)
+
+void Display(int timeout)
 {
+    /*
+    int pid = fork();
+
+    if(pid = -1)
+        exit(1);
+    else if(pid > 0)
+        return;
+    */
+
+    signal(SIGINT, Dispose);
+
     if(DEV_Module_Init()!=0) exit(1); //initialize display
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
 
     int current_page = 0;
 
-    for(current_page = 0; current_page < page_count; current_page++)
+    while(1)
     {
-        EPD_2IN13_V2_Display(img_bufs[current_page]);
-        sleep(5);
-    }
+        if(current_page == page_count) {
+            *img_bufs -= page_count;
+            current_page = 0;
+        }
 
+        EPD_2IN13_V2_Display(img_bufs);
+        *img_bufs++;
+        current_page++;
+        sleep(timeout);
+    }
+}
+
+void  Dispose(int signo)
+{
+    int i = 0;
+
+    for(i = 0; i < page_count; i++)
+        free(*img_bufs++);
+
+    EPD_2IN13_V2_Clear();  
+    DEV_Module_Exit();
+    exit(0);
 }

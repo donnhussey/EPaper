@@ -11,7 +11,9 @@
 #include <unistd.h>
 #include <string.h>
 
+int main(int c, char **v);
 void GetInput(int buf_size, char* inputBuffer);
-void Display(UBYTE *img_bufs[], int page_count);
-int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
 UBYTE* Render(char *page_content, sFONT *font);
+int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
+void Display(int timeout);
+void  Dispose(int signo);
