@@ -107,12 +107,13 @@ void Display(int timeout)
     while(1)
     {
         if(current_page == page_count) {
-            *img_bufs -= page_count;
+            **img_bufs -= page_count;
             current_page = 0;
         }
 
-        EPD_2IN13_V2_Display(img_bufs);
-        *img_bufs++;
+        printf("displaying page %i \n", current_page);
+        EPD_2IN13_V2_Display(*img_bufs);
+        **img_bufs++;
         current_page++;
         sleep(timeout);
     }
