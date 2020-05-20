@@ -87,14 +87,12 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 
 void Display(int timeout)
 {
-    /*
     int pid = fork();
 
     if(pid = -1)
         exit(1);
     else if(pid > 0)
         return;
-    */
 
     signal(SIGINT, Dispose);
 
@@ -113,7 +111,6 @@ void Display(int timeout)
             current_page = 0;
         }
 
-        printf("displaying page %i \n", current_page);
         EPD_2IN13_V2_Display(*img_bufs_cpy);
         **img_bufs++;
         current_page++;
