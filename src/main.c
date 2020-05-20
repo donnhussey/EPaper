@@ -1,10 +1,6 @@
 ﻿#include "epaper.h"
-<<<<<<< HEAD
-//test
-=======
 #include <string.h>
 #include <stdio.h>
->>>>>>> 02e4cf80c7dce8428699607f5a2e46ddd0264a50
 
 void  Handler(int signo)
 {
@@ -95,14 +91,6 @@ void Display(UBYTE *img_bufs[], int page_count)
     if(DEV_Module_Init()!=0) exit(1); //initialize display
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
-<<<<<<< HEAD
-    Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
-    Paint_SelectImage(img_buf);
-    Paint_SetMirroring(MIRROR_HORIZONTAL);
-    Paint_Clear(WHITE);
-    Paint_DrawPage(1, 1, text, font, WHITE, BLACK);
-    EPD_2IN13_V2_Display(img_buf);
-=======
 
     int current_page = 0;
 
@@ -112,5 +100,4 @@ void Display(UBYTE *img_bufs[], int page_count)
         sleep(5);
     }
 
->>>>>>> 02e4cf80c7dce8428699607f5a2e46ddd0264a50
 }
