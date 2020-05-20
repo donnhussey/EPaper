@@ -13,7 +13,7 @@ int main(int c, char **v)
     //signal(SIGINT, Handler); 
     
     sFONT font = Font12;
-    int max_page_count = 5;
+    int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_WIDTH / font.Width) ;
     int max_lines = (int)(EPD_2IN13_V2_HEIGHT / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
@@ -21,7 +21,6 @@ int main(int c, char **v)
     int page_count = 0;
     char text[total_size];
     char next_line[max_line_length];
-    char *input_pos = text;
     char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
 
@@ -30,26 +29,31 @@ int main(int c, char **v)
 
     GetInput(total_size, text);
 
+    int offset = 0;
+    
+
+
+    
     do{
-        for(page_position = 0; page_position < max_lines && *input_pos != '\0'; page_position++){
-                input_pos = GetNextLine(next_line, input_pos, max_line_length);
+        for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
+                offset = GetNextLine(next_line, text, offset, max_line_length);
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
-    }while(*input_pos != '\0');
+    }while(offset != -1);
 
     Display(pages, page_count);
 }
+
 
 void GetInput(int buf_size, char *input_buf)
 {
     char line_buf[buf_size];
     while(fgets(line_buf, buf_size, stdin) != NULL 
-     && buf_size > strlen(input_buf) + strlen(line_buf))
+     && buf_size > strlen(input_buf) + strlen(line_buf)){
         input_buf = strcat(input_buf, strdup(line_buf));
+     }
 }
-
-
 
 UBYTE* Render(char page_content[], sFONT *font)
 {
@@ -65,27 +69,23 @@ UBYTE* Render(char page_content[], sFONT *font)
     return img_buf;
 }
 
-char *GetNextLine(char output[], char *input, int max_line_length)
+int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
 {
-    char *start = input;
     int count = 0;
 
-    while(*input != '\n' && *input != '\0' && count++ < max_line_length)
-        input++;
-
-    input++;
-    count++;
-
-    strncpy(output, start, count);
-
-    if(count-1 == max_line_length){
-        count--;
-        input -= 2;
-        output[count-1] = '\n';
+    while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-2)
+    {
+        output[count] = input[input_offset + count];
+        count++;
     }
 
-    output[count] = '\0'; //strncopy does not null terminate!
-    return input;
+    output[count++] = '\n';
+    output[count] = '\0';
+
+    if(input[input_offset + count - 1] == '\0')
+        return -1;
+    else
+        return input_offset + count;
 }
 
 void Display(UBYTE *img_bufs[], int page_count)
