@@ -11,6 +11,9 @@
 #include <unistd.h>
 #include <string.h>
 
-void  Handler(int signo);
-void GetInput(int max_lines, int max_length, char* inputBuffer);
-void WriteInput(UBYTE *img_buf, char *text, sFONT *font);
+#endif
+
+void GetInput(int buf_size, char* inputBuffer);
+void Display(UBYTE *img_bufs[], int page_count);
+int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
+UBYTE* Render(char *page_content, sFONT *font);
