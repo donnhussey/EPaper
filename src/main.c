@@ -103,7 +103,7 @@ void Display(int timeout)
     EPD_2IN13_V2_Clear();
 
     int current_page = 0;
-    **img_bufs_cpy = **img_bufs;
+    UBYTE **img_bufs_cpy = **img_bufs;
 
     while(1)
     {
