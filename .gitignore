@@ -1,3 +1,6 @@
 obj/
 bin/
 epd
+GPATH
+GRTAGS
+GTAGS
