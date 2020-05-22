@@ -56,7 +56,7 @@ UBYTE* Render(char page_content[], sFONT *font)
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
-    Debug("current data\n%s\n\n", *img_buf);
+    Debug("current data\n%s\n\n", img_buf);
 
     return *img_buf; //wtf
 }
@@ -95,7 +95,7 @@ void Display(int timeout)
     while(1)
     {
         Debug("Attempting to display %i of %i\n", current_page, page_count);
-        Debug("current data\n%s\n\n", *img_bufs_cpy);
+        //Debug("current data\n%s\n\n", *img_bufs_cpy);
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
