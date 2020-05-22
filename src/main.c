@@ -92,7 +92,7 @@ void Display(int timeout)
 
     while(1)
     {
-        Debug("Attempting to display %i of %i\n", current_page, page_count)
+        Debug("Attempting to display %i of %i\n", current_page, page_count);
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
