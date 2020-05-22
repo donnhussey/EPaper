@@ -21,7 +21,7 @@ int main(int c, char **v)
     img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
     strcpy(text, "");
     GetInput(total_size, text);
-    img_buf_size = 0;
+    page_count = 0;
 
     //break input into lines, break lines into pages, build images to display
     do{
@@ -62,7 +62,9 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 {
     int count = 0;
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
+    {
         output[count] = input[input_offset + count++];
+    }
     output[count++] = '\n';
     output[count] = '\0';
     if(input[input_offset + count - 1] == '\0')
@@ -70,7 +72,6 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
     else
         return input_offset + count;
 }
-
 
 void Display(int timeout)
 {
