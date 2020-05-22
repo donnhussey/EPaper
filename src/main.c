@@ -98,7 +98,7 @@ void Display(int timeout)
             current_page = 0;
         }
 
-        EPD_2IN13_V2_Display(*img_bufs_cpy);
+        EPD_2IN13_V2_Display(img_bufs_cpy);
         **img_bufs_cpy++;
         current_page++;
         sleep(timeout);
