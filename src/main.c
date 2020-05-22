@@ -56,16 +56,18 @@ UBYTE* Render(char page_content[], sFONT *font)
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
-    Debug("current data\n%s\n\n", img_buf);
-
-    return img_buf; //wtf
+    return img_buf;
 }
 
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
 {
     int count = 0;
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
-        output[count] = input[input_offset + count++];
+    {
+        output[count] = input[input_offset + count];
+        count++;
+    }
+    
     output[count++] = '\n';
     output[count] = '\0';
     if(input[input_offset + count - 1] == '\0')  return -1;
@@ -74,14 +76,13 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 
 void Display(int timeout)
 {
-    /*
     int pid = fork();
 
     if(pid == -1)
         exit(1);
     else if(pid > 0)
         return;
-*/
+
     signal(SIGINT, Dispose);
 
     if(DEV_Module_Init()!=0) exit(1); //initialize display
@@ -95,7 +96,6 @@ void Display(int timeout)
     while(1)
     {
         Debug("Attempting to display %i of %i\n", current_page, page_count);
-        //Debug("current data\n%s\n\n", *img_bufs_cpy);
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
