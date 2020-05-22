@@ -12,7 +12,6 @@ int main(int c, char **v)
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
     int page_position = 0;
-    int page_count = 0;
     int offset = 0;
     char text[total_size];
     char next_line[max_line_length];
@@ -20,12 +19,9 @@ int main(int c, char **v)
     UBYTE *pages[max_page_count];
 
     img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
-
     strcpy(text, "");
-
     GetInput(total_size, text);
-
-    
+    img_buf_size = 0;
 
     //break input into lines, break lines into pages, build images to display
     do{
@@ -41,7 +37,6 @@ int main(int c, char **v)
     Display(5);
 }
 
-
 void GetInput(int buf_size, char *input_buf)
 {
     char line_buf[buf_size];
@@ -53,10 +48,8 @@ void GetInput(int buf_size, char *input_buf)
 
 UBYTE* Render(char page_content[], sFONT *font)
 {
-    UBYTE *img_buf;
-       
+    UBYTE *img_buf;     
     if((img_buf = (UBYTE *)malloc(img_buf_size)) == NULL) exit(1);
-    
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
@@ -68,16 +61,10 @@ UBYTE* Render(char page_content[], sFONT *font)
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
 {
     int count = 0;
-
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
-    {
-        output[count] = input[input_offset + count];
-        count++;
-    }
-
+        output[count] = input[input_offset + count++];
     output[count++] = '\n';
     output[count] = '\0';
-
     if(input[input_offset + count - 1] == '\0')
         return -1;
     else
@@ -87,13 +74,14 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 
 void Display(int timeout)
 {
+    /*
     int pid = fork();
 
     if(pid == -1)
         exit(1);
     else if(pid > 0)
         return;
-
+*/
     signal(SIGINT, Dispose);
 
     if(DEV_Module_Init()!=0) exit(1); //initialize display
@@ -112,7 +100,7 @@ void Display(int timeout)
         }
 
         EPD_2IN13_V2_Display(*img_bufs_cpy);
-        **img_bufs++;
+        **img_bufs_cpy++;
         current_page++;
         sleep(timeout);
     }
