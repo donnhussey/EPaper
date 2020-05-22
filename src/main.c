@@ -56,7 +56,7 @@ UBYTE* Render(char page_content[], sFONT *font)
     Paint_SetMirroring(MIRROR_HORIZONTAL);
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
-    Debug("current data\n%s\n\n", img_buf);
+    Debug("current data\n%s\n\n", *img_buf);
 
     return *img_buf; //wtf
 }
