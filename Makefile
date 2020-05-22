@@ -2,7 +2,7 @@ DIR_Config   = ./lib/Config
 DIR_EPD      = ./lib/e-Paper
 DIR_FONTS    = ./lib/Fonts
 DIR_GUI      = ./lib/GUI
-DIR_Examples = ./examples
+DIR_Examples = ./src
 DIR_BIN      = ./bin
 
 OBJ_C = $(wildcard ${DIR_EPD}/*.c ${DIR_GUI}/*.c ${DIR_Examples}/*.c ${DIR_FONTS}/*.c )
