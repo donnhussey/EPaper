@@ -26,7 +26,7 @@ int main(int c, char **v)
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                Debug("Rendering line %i of %i on page %i", page_position, max_lines, page_count);
+                Debug("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 offset = GetNextLine(next_line, text, offset, max_line_length);
                 strcat(page, next_line);
         }
@@ -63,15 +63,11 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 {
     int count = 0;
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
-    {
         output[count] = input[input_offset + count++];
-    }
     output[count++] = '\n';
     output[count] = '\0';
-    if(input[input_offset + count - 1] == '\0')
-        return -1;
-    else
-        return input_offset + count;
+    if(input[input_offset + count - 1] == '\0')  return -1;
+    else return input_offset + count;
 }
 
 void Display(int timeout)
@@ -96,6 +92,7 @@ void Display(int timeout)
 
     while(1)
     {
+        Debug("Attempting to display %i of %i\n", current_page, page_count)
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
