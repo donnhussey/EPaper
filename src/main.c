@@ -17,13 +17,16 @@ int main(int c, char **v)
     char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
     strcpy(text, "");
-    GetInput(total_size, text);
-    page_count = 0;
 
-    //break input into lines, break lines into pages, build images to display
+    Debug("Getting input\n");
+    GetInput(total_size, text);
+
+    Debug("paging input\n");
+    page_count = 0;
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
+                Debug("Rendering line %i of %i on page %i", page_position, max_lines, page_count);
                 offset = GetNextLine(next_line, text, offset, max_line_length);
                 strcat(page, next_line);
         }
