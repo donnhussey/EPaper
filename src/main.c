@@ -22,7 +22,6 @@ int main(int c, char **v)
             iterations = atoi(optarg);
             break;
         default: //default
-            forever_flag = 1;
             break;
     }
 
