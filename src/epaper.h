@@ -8,7 +8,6 @@
 #include <signal.h>   
 #include <ctype.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 
 int main(int c, char **v);

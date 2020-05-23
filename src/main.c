@@ -2,7 +2,6 @@
 
 UBYTE **img_bufs;
 int page_count;
-UWORD img_buf_size;
 
 int main(int c, char **v)
 {
@@ -12,25 +11,22 @@ int main(int c, char **v)
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
     int page_position = 0;
-    int page_count = 0;
     int offset = 0;
     char text[total_size];
     char next_line[max_line_length];
     char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
-
-    img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
-
     strcpy(text, "");
 
+    Debug("Getting input\n");
     GetInput(total_size, text);
 
-    
-
-    //break input into lines, break lines into pages, build images to display
+    Debug("paging input\n");
+    page_count = 0;
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
+                Debug("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 offset = GetNextLine(next_line, text, offset, max_line_length);
                 strcat(page, next_line);
         }
@@ -40,7 +36,6 @@ int main(int c, char **v)
     img_bufs = pages;
     Display(5);
 }
-
 
 void GetInput(int buf_size, char *input_buf)
 {
@@ -53,10 +48,9 @@ void GetInput(int buf_size, char *input_buf)
 
 UBYTE* Render(char page_content[], sFONT *font)
 {
-    UBYTE *img_buf;
-       
+    UWORD img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
+    UBYTE *img_buf;     
     if((img_buf = (UBYTE *)malloc(img_buf_size)) == NULL) exit(1);
-    
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
     Paint_SelectImage(img_buf);
     Paint_SetMirroring(MIRROR_HORIZONTAL);
@@ -68,22 +62,17 @@ UBYTE* Render(char page_content[], sFONT *font)
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
 {
     int count = 0;
-
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
     {
         output[count] = input[input_offset + count];
         count++;
     }
-
+    
     output[count++] = '\n';
     output[count] = '\0';
-
-    if(input[input_offset + count - 1] == '\0')
-        return -1;
-    else
-        return input_offset + count;
+    if(input[input_offset + count - 1] == '\0')  return -1;
+    else return input_offset + count;
 }
-
 
 void Display(int timeout)
 {
@@ -106,13 +95,14 @@ void Display(int timeout)
 
     while(1)
     {
+        Debug("Attempting to display %i of %i\n", current_page, page_count);
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
         }
 
         EPD_2IN13_V2_Display(*img_bufs_cpy);
-        **img_bufs++;
+        **img_bufs_cpy++;
         current_page++;
         sleep(timeout);
     }

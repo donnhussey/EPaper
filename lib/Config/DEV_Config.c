@@ -206,33 +206,33 @@ static int DEV_Equipment_Testing(void)
 	int fd;
 	char value_str[20];
 	fd = open("/etc/issue", O_RDONLY);
-    //printf("Current environment: ");
+    Debug("Current environment: ");
 	while(1) {
 		if (fd < 0) {
-			//Debug( "Read failed Pin\n");
+			Debug( "Read failed Pin\n");
 			return -1;
 		}
 		for(i=0;; i++) {
 			if (read(fd, &value_str[i], 1) < 0) {
-				//Debug( "failed to read value!\n");
+				Debug( "failed to read value!\n");
 				return -1;
 			}
 			if(value_str[i] ==32) {
-				//printf("\r\n");
+				Debug("\r\n");
 				break;
 			}
-			printf("%c",value_str[i]);
+			Debug("%c",value_str[i]);
 		}
 		break;
 	}
 #ifdef RPI
 	if(i<5) {
-		//printf("Unrecognizable\r\n");
+		Debug("Unrecognizable\r\n");
 	} else {
 		char RPI_System[10]   = {"Raspbian"};
 		for(i=0; i<6; i++) {
 			if(RPI_System[i]!= value_str[i]) {
-				//printf("Please make JETSON !!!!!!!!!!\r\n");
+				Debug("Please make JETSON !!!!!!!!!!\r\n");
 				return -1;
 			}
 		}
@@ -240,12 +240,12 @@ static int DEV_Equipment_Testing(void)
 #endif
 #ifdef JETSON
 	if(i<5) {
-		//Debug("Unrecognizable\r\n");
+		Debug("Unrecognizable\r\n");
 	} else {
 		char JETSON_System[10]= {"Ubuntu"};
 		for(i=0; i<6; i++) {
 			if(JETSON_System[i]!= value_str[i] ) {
-				//printf("Please make RPI !!!!!!!!!!\r\n");
+				Debug("Please make RPI !!!!!!!!!!\r\n");
 				return -1;
 			}
 		}
@@ -284,17 +284,17 @@ Info:
 ******************************************************************************/
 UBYTE DEV_Module_Init(void)
 {
-    //printf("/***********************************/ \r\n");
+    Debug("/***********************************/ \r\n");
 	if(DEV_Equipment_Testing() < 0) {
 		return 1;
 	}
 #ifdef RPI
 #ifdef USE_BCM2835_LIB
 	if(!bcm2835_init()) {
-		//printf("bcm2835 init failed  !!! \r\n");
+		Debug("bcm2835 init failed  !!! \r\n");
 		return 1;
 	} else {
-		//printf("bcm2835 init success !!! \r\n");
+		Debug("bcm2835 init success !!! \r\n");
 	}
 
 	// GPIO Config
@@ -310,10 +310,10 @@ UBYTE DEV_Module_Init(void)
 #elif USE_WIRINGPI_LIB
 	//if(wiringPiSetup() < 0)//use wiringpi Pin number table
 	if(wiringPiSetupGpio() < 0) { //use BCM2835 Pin number table
-		//printf("set wiringPi lib failed	!!! \r\n");
+		Debug("set wiringPi lib failed	!!! \r\n");
 		return 1;
 	} else {
-		//printf("set wiringPi lib success !!! \r\n");
+		Debug("set wiringPi lib success !!! \r\n");
 	}
 
 	// GPIO Config
@@ -322,7 +322,7 @@ UBYTE DEV_Module_Init(void)
 	wiringPiSPISetup(0,10000000);
 	// wiringPiSPISetupMode(0, 32000000, 0);
 #elif USE_DEV_LIB
-	//printf("Write and read /dev/spidev0.0 \r\n");
+	Debug("Write and read /dev/spidev0.0 \r\n");
 	DEV_GPIO_Init();
 	DEV_HARDWARE_SPI_begin("/dev/spidev0.0");
     DEV_HARDWARE_SPI_setSpeed(10000000);
@@ -331,19 +331,19 @@ UBYTE DEV_Module_Init(void)
 #elif JETSON
 #ifdef USE_DEV_LIB
 	DEV_GPIO_Init();
-	//printf("Software spi\r\n");
+	Debug("Software spi\r\n");
 	SYSFS_software_spi_begin();
 	SYSFS_software_spi_setBitOrder(SOFTWARE_SPI_MSBFIRST);
 	SYSFS_software_spi_setDataMode(SOFTWARE_SPI_Mode0);
 	SYSFS_software_spi_setClockDivider(SOFTWARE_SPI_CLOCK_DIV4);
 #elif USE_HARDWARE_LIB
-	//printf("Write and read /dev/spidev0.0 \r\n");
+	Debug("Write and read /dev/spidev0.0 \r\n");
 	DEV_GPIO_Init();
 	DEV_HARDWARE_SPI_begin("/dev/spidev0.0");
 #endif
 
 #endif
-    //printf("/***********************************/ \r\n");
+    Debug("/***********************************/ \r\n");
 	return 0;
 }
 
@@ -380,7 +380,7 @@ void DEV_Module_Exit(void)
 	SYSFS_GPIO_Unexport(EPD_RST_PIN);
 	SYSFS_GPIO_Unexport(EPD_BUSY_PIN);
 #elif USE_HARDWARE_LIB
-	//Debug("not support");
+	Debug("not support");
 #endif
 #endif
 }
