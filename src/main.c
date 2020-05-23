@@ -7,7 +7,6 @@ int main(int c, char **v)
 {
     char *cvalue;
     int optct;
-    int forever_flag = 0;
     int iterations = 0;
     sFONT font = Font12;
 
@@ -27,10 +26,10 @@ int main(int c, char **v)
             break;
     }
 
-    if(forever_flag)
-        ProcessForever(font);
-    else
+    if(iterations > 0)
         ProcessUntil(font, iterations);
+    else
+        ProcessForever(font);
 }
 
 void ProcessForever(sFONT font)
@@ -103,7 +102,7 @@ void ProcessUntil(sFONT font, int repeat)
     }while(offset != -1);
 
     img_bufs = pages;
-    DisplayLoopAsync(5);
+    DisplayAsync(5, repeat);
 }
 
 UBYTE* Render(char page_content[], sFONT *font)
