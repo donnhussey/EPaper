@@ -1,8 +1,8 @@
-#include "DEV_Config.h"
-#include "GUI_Paint.h"
-#include "GUI_BMPfile.h"
-#include "EPD_2in13_V2.h" 
-#include "Debug.h"
+#include "../lib/Config/DEV_Config.h"
+#include "../lib/GUI/GUI_Paint.h"
+#include "../lib/GUI/GUI_BMPfile.h"
+#include "../lib/e-Paper/EPD_2in13_V2.h" 
+#include "../lib/config/Debug.h"
 
 #include <stdlib.h> 
 #include <signal.h>   

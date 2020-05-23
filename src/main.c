@@ -4,7 +4,12 @@ UBYTE **img_bufs;
 int page_count;
 UWORD img_buf_size;
 
-int main(int c, char **v)
+int main(int c char **v)
+{
+    Process();
+}
+
+void Process()
 {
     sFONT font = Font12;
     int max_page_count = 20;
@@ -25,8 +30,6 @@ int main(int c, char **v)
 
     GetInput(total_size, text);
 
-    
-
     //break input into lines, break lines into pages, build images to display
     do{
         strcpy(page, "");
@@ -40,7 +43,6 @@ int main(int c, char **v)
     img_bufs = pages;
     Display(5);
 }
-
 
 void GetInput(int buf_size, char *input_buf)
 {
@@ -84,8 +86,14 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
         return input_offset + count;
 }
 
+void Clear(){
+    if(DEV_Module_Init()!=0) exit(1);
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
+    DEV_Module_Exit();
+}
 
-void Display(int timeout)
+void DisplayLoopAsync(int timeout)
 {
     int pid = fork();
 
@@ -112,16 +120,53 @@ void Display(int timeout)
         }
 
         EPD_2IN13_V2_Display(*img_bufs_cpy);
-        **img_bufs++;
+        **img_bufs_cpy++;
         current_page++;
         sleep(timeout);
     }
 }
 
+void DisplayAsync(int timeout, int displayLoops)
+{
+    int pid = fork();
+
+    if(pid == -1)
+        exit(1);
+    else if(pid > 0)
+        return;
+
+    signal(SIGINT, Dispose);
+
+    if(DEV_Module_Init()!=0) exit(1);
+    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
+    EPD_2IN13_V2_Clear();
+
+    int current_page = 0;
+    int current_loop - 0;
+    UBYTE **img_bufs_cpy;
+    img_bufs_cpy = img_bufs;
+
+    while(current_page < page_count && current_loop < display_poops)
+    {
+        EPD_2IN13_V2_Display(*img_bufs_cpy);
+        **img_bufs_cpy++;
+        current_page++;
+        current_loop++;
+        sleep(timeout);
+    }
+
+    int i = 0;
+    for(i = 0; i < page_count; i++)
+        free(*img_bufs++);
+
+    EPD_2IN13_V2_Clear();  
+    DEV_Module_Exit();
+    exit(0);
+}
+
 void  Dispose(int signo)
 {
     int i = 0;
-
     for(i = 0; i < page_count; i++)
         free(*img_bufs++);
 
