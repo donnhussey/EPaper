@@ -128,10 +128,10 @@ parameter:
 void Paint_SetRotate(UWORD Rotate)
 {
     if(Rotate == ROTATE_0 || Rotate == ROTATE_90 || Rotate == ROTATE_180 || Rotate == ROTATE_270) {
-        //Debug("Set image Rotate %d\r\n", Rotate);
+        Debug("Set image Rotate %d\r\n", Rotate);
         Paint.Rotate = Rotate;
     } else {
-        //Debug("rotate = 0, 90, 180, 270\r\n");
+        Debug("rotate = 0, 90, 180, 270\r\n");
     }
 }
 
@@ -144,7 +144,7 @@ void Paint_SetMirroring(UBYTE mirror)
 {
     if(mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL || 
         mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN) {
-        //Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
+        Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
         Paint.Mirror = mirror;
     } else {
         Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
@@ -346,7 +346,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
         Dotted_Len++;
         //Painted dotted line, 2 point is really virtual
         if (Line_Style == LINE_STYLE_DOTTED && Dotted_Len % 3 == 0) {
-            //Debug("LINE_DOTTED\r\n");
+            Debug("LINE_DOTTED\r\n");
             Paint_DrawPoint(Xpoint, Ypoint, IMAGE_BACKGROUND, Line_width, DOT_STYLE_DFT);
             Dotted_Len = 0;
         } else {
