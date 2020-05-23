@@ -2,7 +2,6 @@
 
 UBYTE **img_bufs;
 int page_count;
-UWORD img_buf_size;
 
 int main(int c, char **v)
 {
@@ -17,20 +16,17 @@ void Process()
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
     int page_position = 0;
-    int page_count = 0;
     int offset = 0;
     char text[total_size];
     char next_line[max_line_length];
     char page[max_line_length * max_lines];
     UBYTE *pages[max_page_count];
 
-    img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
-
     strcpy(text, "");
 
     GetInput(total_size, text);
 
-    //break input into lines, break lines into pages, build images to display
+    page_count = 0;
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
@@ -56,7 +52,8 @@ void GetInput(int buf_size, char *input_buf)
 UBYTE* Render(char page_content[], sFONT *font)
 {
     UBYTE *img_buf;
-       
+    UWORD img_buf_size = ((EPD_2IN13_V2_WIDTH % 8 == 0)? (EPD_2IN13_V2_WIDTH / 8 ): (EPD_2IN13_V2_WIDTH / 8 + 1)) * EPD_2IN13_V2_HEIGHT; 
+
     if((img_buf = (UBYTE *)malloc(img_buf_size)) == NULL) exit(1);
     
     Paint_NewImage(img_buf, EPD_2IN13_V2_WIDTH, EPD_2IN13_V2_HEIGHT, 90, WHITE);
