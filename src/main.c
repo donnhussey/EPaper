@@ -5,18 +5,41 @@ int page_count;
 
 int main(int c, char **v)
 {
-    Process();
+    char *cvalue;
+    int optct;
+    int forever_flag = 0;
+    int iterations = 0;
+    sFONT font = Font12;
+
+    while((optct = getopt(c, v, "cf:r:")) != -1)
+    switch(optct){
+        case 'c': //clear
+            Clear();
+            break;
+        case 'f': //font
+            font = get_font(optarg);
+            break;
+        case 'r': //repeat
+            iterations = atoi(optarg);
+            break;
+        default: //default
+            forever_flag = 1;
+            break;
+    }
+
+    if(forever_flag)
+        ProcessForever(font);
+    else
+        ProcessUntil(font, iterations);
 }
 
-void Process()
+void ProcessForever(sFONT font)
 {
-    sFONT font = Font12;
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
-    int page_position = 0;
-    int offset = 0;
+
     char text[total_size];
     char next_line[max_line_length];
     char page[max_line_length * max_lines];
@@ -26,6 +49,49 @@ void Process()
 
     GetInput(total_size, text);
 
+    int page_position = 0;
+    int offset = 0;
+    page_count = 0;
+    do{
+        strcpy(page, "");
+        for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
+                offset = GetNextLine(next_line, text, offset, max_line_length);
+                strcat(page, next_line);
+        }
+        pages[page_count++] = Render(page, &font);
+    }while(offset != -1);
+
+    img_bufs = pages;
+    DisplayLoopAsync(5);
+}
+
+void GetInput(int buf_size, char *input_buf)
+{
+    char line_buf[buf_size];
+    while(fgets(line_buf, buf_size, stdin) != NULL 
+     && buf_size > strlen(input_buf) + strlen(line_buf)){
+        input_buf = strcat(input_buf, strdup(line_buf));
+     }
+}
+
+void ProcessUntil(sFONT font, int repeat)
+{
+    int max_page_count = 20;
+    int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
+    int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
+    int total_size = max_page_count * max_line_length * max_lines;
+
+    char text[total_size];
+    char next_line[max_line_length];
+    char page[max_line_length * max_lines];
+    UBYTE *pages[max_page_count];
+
+    strcpy(text, "");
+
+    GetInput(total_size, text);
+
+    int page_position = 0;
+    int offset = 0;
     page_count = 0;
     do{
         strcpy(page, "");
@@ -92,12 +158,12 @@ void Clear(){
 
 void DisplayLoopAsync(int timeout)
 {
-    int pid = fork();
+/*     int pid = fork();
 
     if(pid == -1)
         exit(1);
     else if(pid > 0)
-        return;
+        return; */
 
     signal(SIGINT, Dispose);
 
@@ -125,12 +191,12 @@ void DisplayLoopAsync(int timeout)
 
 void DisplayAsync(int timeout, int display_loops)
 {
-    int pid = fork();
+    // int pid = fork();
 
-    if(pid == -1)
-        exit(1);
-    else if(pid > 0)
-        return;
+    // if(pid == -1)
+    //     exit(1);
+    // else if(pid > 0)
+    //     return;
 
     signal(SIGINT, Dispose);
 
@@ -159,6 +225,21 @@ void DisplayAsync(int timeout, int display_loops)
     EPD_2IN13_V2_Clear();  
     DEV_Module_Exit();
     exit(0);
+}
+
+sFONT get_font(char* fontsize)
+{
+    int size = atoi(fontsize);
+
+    switch(size)
+    {
+        case 8 : return Font8;
+        case 12: return Font12;
+        case 16: return Font16;
+        case 20: return Font16;
+        case 24: return Font24;
+        default: return Font12;
+    }
 }
 
 void  Dispose(int signo)
