@@ -4,7 +4,7 @@ UBYTE **img_bufs;
 int page_count;
 UWORD img_buf_size;
 
-int main(int c char **v)
+int main(int c, char **v)
 {
     Process();
 }
@@ -41,7 +41,7 @@ void Process()
     }while(offset != -1);
 
     img_bufs = pages;
-    Display(5);
+    DisplayLoopAsync(5);
 }
 
 void GetInput(int buf_size, char *input_buf)
@@ -126,7 +126,7 @@ void DisplayLoopAsync(int timeout)
     }
 }
 
-void DisplayAsync(int timeout, int displayLoops)
+void DisplayAsync(int timeout, int display_loops)
 {
     int pid = fork();
 
@@ -142,11 +142,11 @@ void DisplayAsync(int timeout, int displayLoops)
     EPD_2IN13_V2_Clear();
 
     int current_page = 0;
-    int current_loop - 0;
+    int current_loop = 0;
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    while(current_page < page_count && current_loop < display_poops)
+    while(current_page < page_count && current_loop < display_loops)
     {
         EPD_2IN13_V2_Display(*img_bufs_cpy);
         **img_bufs_cpy++;
