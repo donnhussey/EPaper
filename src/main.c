@@ -17,7 +17,7 @@ int main(int c, char **v)
             Clear();
             break;
         case 'f': //font
-            font = get_font(optarg);
+            font = GetFont(optarg);
             break;
         case 'r': //repeat
             iterations = atoi(optarg);
@@ -106,15 +106,6 @@ void ProcessUntil(sFONT font, int repeat)
     DisplayLoopAsync(5);
 }
 
-void GetInput(int buf_size, char *input_buf)
-{
-    char line_buf[buf_size];
-    while(fgets(line_buf, buf_size, stdin) != NULL 
-     && buf_size > strlen(input_buf) + strlen(line_buf)){
-        input_buf = strcat(input_buf, strdup(line_buf));
-     }
-}
-
 UBYTE* Render(char page_content[], sFONT *font)
 {
     UBYTE *img_buf;
@@ -149,7 +140,8 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
         return input_offset + count;
 }
 
-void Clear(){
+void Clear()
+{
     if(DEV_Module_Init()!=0) exit(1);
     EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
     EPD_2IN13_V2_Clear();
@@ -227,7 +219,7 @@ void DisplayAsync(int timeout, int display_loops)
     exit(0);
 }
 
-sFONT get_font(char* fontsize)
+sFONT GetFont(char* fontsize)
 {
     int size = atoi(fontsize);
 
