@@ -200,6 +200,7 @@ void DisplayAsync(int timeout, int display_loops)
     img_bufs_cpy = img_bufs;
 
     while(current_loop < display_loops)
+    {
         while(current_page < page_count && current_loop < display_loops)
         {
             EPD_2IN13_V2_Display(*img_bufs_cpy);
