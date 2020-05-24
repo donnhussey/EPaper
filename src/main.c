@@ -15,18 +15,23 @@ int main(int c, char **v)
     while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
+            Debug("clearing.\n");
             Clear();
+            break;
+        case 'p': //keep whatever was on the screen on the screen after completion
+            Debug("persisting.\n");
+            persist = 1;
             break;
         case 'f': //font
             font = GetFont(optarg);
+            Debug("font size %i selected.\n", atoi(optarg));
             break;
         case 'r': //repeat
+            Debug("Repeating %i times.\n", atoi(optarg));
             iterations = atoi(optarg);
             break;
-        case 'p': //keep whatever was on the screen on the screen after completion
-            persist = 1;
-            break;
         case 't': //timeout between screens
+            Debug("Setting timeout to %i", atoi(optarg));
             timeout = atoi(optarg);
         default: //default
             break;
