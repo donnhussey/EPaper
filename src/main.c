@@ -38,9 +38,9 @@ int main(int c, char **v)
     }
 
     if(iterations > 0)
-        ProcessUntil(font, iterations);
+        ProcessUntil(font, iterations, timeout);
     else
-        ProcessForever(font);
+        ProcessForever(font, timeout);
 }
 
 void ProcessForever(sFONT font, int timeout)
