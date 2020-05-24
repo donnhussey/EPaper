@@ -134,7 +134,7 @@ UBYTE* Render(char page_content[], sFONT *font)
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
 {
     int count = 0;
-    while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-3)
+    while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-2)
     {
         output[count] = input[input_offset + count];
         count++;
@@ -143,7 +143,7 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
     output[count++] = '\n';
     output[count] = '\0';
     if(input[input_offset + count - 1] == '\0')  return -1;
-    else return input_offset + count;
+    else return input_offset + count-1;
 }
 
 void Clear()
