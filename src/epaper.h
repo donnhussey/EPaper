@@ -11,8 +11,14 @@
 #include <string.h>
 
 int main(int c, char **v);
+void Process();
 void GetInput(int buf_size, char* inputBuffer);
 UBYTE* Render(char *page_content, sFONT *font);
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
-void Display(int timeout);
+void DisplayLoopAsync(int timeout);
+void DisplayAsync(int timeout, int display_loops);
 void  Dispose(int signo);
+void ProcessForever(sFONT font, int timeout);
+void ProcessUntil(sFONT font, int repeat, int timeout);
+void Clear();
+sFONT GetFont(char* fontsize);
