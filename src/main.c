@@ -5,7 +5,6 @@ int page_count;
 
 int main(int c, char **v)
 {
-    char *cvalue;
     int optct;
     int iterations = 0;
     sFONT font = Font12;
@@ -148,12 +147,12 @@ void Clear()
 
 void DisplayLoopAsync(int timeout)
 {
-/*     int pid = fork();
+    int pid = fork();
 
     if(pid == -1)
         exit(1);
     else if(pid > 0)
-        return; */
+        return;
 
     signal(SIGINT, Dispose);
 
@@ -179,14 +178,14 @@ void DisplayLoopAsync(int timeout)
     }
 }
 
-void DisplayAsync(int timeout, int display_loops)
+void DisplayAsync(int timeout, int loop_count)
 {
-    // int pid = fork();
+     int pid = fork();
 
-    // if(pid == -1)
-    //     exit(1);
-    // else if(pid > 0)
-    //     return;
+     if(pid == -1)
+         exit(1);
+     else if(pid > 0)
+         return;
 
     signal(SIGINT, Dispose);
 
@@ -199,17 +198,19 @@ void DisplayAsync(int timeout, int display_loops)
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    while(current_loop < display_loops)
+    while(current_loop < loop_count)
     {
         while(current_page < page_count)
         {
             EPD_2IN13_V2_Display(*img_bufs_cpy);
-            Debug("displaying page %i of %i, iteration %i of %i\n", current_page, page_count, current_loop, display_loops);
+            Debug("displaying page %i of %i, iteration %i of %i\n", current_page, page_count, current_loop, loop_count);
             **img_bufs_cpy++;
             current_page++;
             sleep(timeout);
         }
-       current_loop++;
+	img_bufs_cpy = img_bufs;
+	current_page = 0; 
+        current_loop++;
     }
 
     int i = 0;
