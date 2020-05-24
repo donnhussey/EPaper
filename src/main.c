@@ -199,13 +199,16 @@ void DisplayAsync(int timeout, int display_loops)
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    while(current_page < page_count && current_loop < display_loops)
-    {
-        EPD_2IN13_V2_Display(*img_bufs_cpy);
-        **img_bufs_cpy++;
-        current_page++;
-        current_loop++;
-        sleep(timeout);
+    while(current_loop < display_loops)
+        while(current_page < page_count && current_loop < display_loops)
+        {
+            EPD_2IN13_V2_Display(*img_bufs_cpy);
+            Debug("", current_page, page_count, current_loop, display_loops)
+            **img_bufs_cpy++;
+            current_page++;
+            sleep(timeout);
+        }
+       current_loop++;
     }
 
     int i = 0;
