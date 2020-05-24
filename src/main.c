@@ -2,14 +2,17 @@
 
 UBYTE **img_bufs;
 int page_count;
+int persist;
 
 int main(int c, char **v)
 {
     int optct;
     int iterations = 0;
+    int timeout = 5;
     sFONT font = Font12;
+    persist = 0;
 
-    while((optct = getopt(c, v, "cf:r:")) != -1)
+    while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
             Clear();
@@ -20,6 +23,11 @@ int main(int c, char **v)
         case 'r': //repeat
             iterations = atoi(optarg);
             break;
+        case 'p': //keep whatever was on the screen on the screen after completion
+            persist = 1;
+            break;
+        case 't': //timeout between screens
+            timeout = atoi(optarg);
         default: //default
             break;
     }
@@ -30,7 +38,7 @@ int main(int c, char **v)
         ProcessForever(font);
 }
 
-void ProcessForever(sFONT font)
+void ProcessForever(sFONT font, int timeout)
 {
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
@@ -59,7 +67,7 @@ void ProcessForever(sFONT font)
     }while(offset != -1);
 
     img_bufs = pages;
-    DisplayLoopAsync(5);
+    DisplayLoopAsync(timeout);
 }
 
 void GetInput(int buf_size, char *input_buf)
@@ -71,7 +79,7 @@ void GetInput(int buf_size, char *input_buf)
      }
 }
 
-void ProcessUntil(sFONT font, int repeat)
+void ProcessUntil(sFONT font, int repeat, int timeout)
 {
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
@@ -100,7 +108,7 @@ void ProcessUntil(sFONT font, int repeat)
     }while(offset != -1);
 
     img_bufs = pages;
-    DisplayAsync(5, repeat);
+    DisplayAsync(timeout, repeat);
 }
 
 UBYTE* Render(char page_content[], sFONT *font)
@@ -217,7 +225,7 @@ void DisplayAsync(int timeout, int loop_count)
     for(i = 0; i < page_count; i++)
         free(*img_bufs++);
 
-    EPD_2IN13_V2_Clear();  
+    if(!persist) EPD_2IN13_V2_Clear();  
     DEV_Module_Exit();
     exit(0);
 }
@@ -243,7 +251,7 @@ void  Dispose(int signo)
     for(i = 0; i < page_count; i++)
         free(*img_bufs++);
 
-    EPD_2IN13_V2_Clear();  
+    if(!persist) EPD_2IN13_V2_Clear();  
     DEV_Module_Exit();
     exit(0);
 }

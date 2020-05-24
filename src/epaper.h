@@ -19,7 +19,7 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
 void DisplayLoopAsync(int timeout);
 void DisplayAsync(int timeout, int display_loops);
 void  Dispose(int signo);
-void ProcessForever(sFONT font);
-void ProcessUntil(sFONT font, int repeat);
+void ProcessForever(sFONT font, int timeout);
+void ProcessUntil(sFONT font, int repeat, int timeout);
 void Clear();
 sFONT GetFont(char* fontsize);
