@@ -12,6 +12,7 @@ int main(int c, char **v)
     sFONT font = Font12;
     persist = 0;
 
+/*
     while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
@@ -36,6 +37,7 @@ int main(int c, char **v)
         default: //default
             break;
     }
+    */
 
     Debug("Iterations: %i", iterations);
     if(iterations > 0)
