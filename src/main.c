@@ -12,34 +12,34 @@ int main(int c, char **v)
     sFONT font = Font12;
     persist = 0;
 
-/*
+
     while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
-            Debug("clearing.\n");
+            printf("clearing.\n");
             Clear();
             break;
         case 'p': //keep whatever was on the screen on the screen after completion
-            Debug("persisting.\n");
+            printf("persisting.\n");
             persist = 1;
             break;
         case 'f': //font
             font = GetFont(optarg);
-            Debug("font size %i selected.\n", atoi(optarg));
+            printf("font size %i selected.\n", atoi(optarg));
             break;
         case 'r': //repeat
-            Debug("Repeating %i times.\n", atoi(optarg));
+            printf("Repeating %i times.\n", atoi(optarg));
             iterations = atoi(optarg);
             break;
         case 't': //timeout between screens
-            Debug("Setting timeout to %i", atoi(optarg));
+            printf("Setting timeout to %i", atoi(optarg));
             timeout = atoi(optarg);
         default: //default
             break;
     }
-    */
+    
 
-    Debug("Iterations: %i", iterations);
+    printf("Iterations: %i", iterations);
     if(iterations > 0)
         ProcessUntil(font, iterations, timeout);
     else
@@ -58,17 +58,17 @@ void ProcessForever(sFONT font, int timeout)
     UBYTE *pages[max_page_count];
     strcpy(text, "");
 
-    Debug("Getting input\n");
+    printf("Getting input\n");
     GetInput(total_size, text);
 
-    Debug("Paging Input\n");
+    printf("Paging Input\n");
     int page_position = 0;
     int offset = 0;
     page_count = 0;
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                Debug("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
+                printf("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 offset = GetNextLine(next_line, text, offset, max_line_length);
                 strcat(page, next_line);
         }
@@ -111,7 +111,7 @@ void ProcessUntil(sFONT font, int repeat, int timeout)
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
                 offset = GetNextLine(next_line, text, offset, max_line_length);
-                Debug("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
+                printf("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
@@ -179,7 +179,7 @@ void DisplayLoopAsync(int timeout)
 
     while(1)
     {
-        Debug("Attempting to display %i of %i\n", current_page, page_count);
+        printf("Attempting to display %i of %i\n", current_page, page_count);
         if(current_page == page_count) {
             img_bufs_cpy = img_bufs;
             current_page = 0;
@@ -217,7 +217,7 @@ void DisplayAsync(int timeout, int loop_count)
         while(current_page < page_count)
         {
             EPD_2IN13_V2_Display(*img_bufs_cpy);
-            Debug("displaying page %i of %i, iteration %i of %i\n", current_page, page_count, current_loop, loop_count);
+            printf("displaying page %i of %i, iteration %i of %i\n", current_page, page_count, current_loop, loop_count);
             **img_bufs_cpy++;
             current_page++;
             sleep(timeout);
