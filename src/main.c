@@ -146,7 +146,7 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
     
     output[count++] = '\n';
     output[count] = '\0';
-    if(input[input_offset + count - 1] == '\0')  return -1;
+    if(input[input_offset + count - 2] == '\0')  return -1;
     else return input_offset + count-1;
 }
 
