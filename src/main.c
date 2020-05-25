@@ -37,6 +37,7 @@ int main(int c, char **v)
             break;
     }
 
+    Debug("Iterations: %i", iterations);
     if(iterations > 0)
         ProcessUntil(font, iterations, timeout);
     else
@@ -108,6 +109,7 @@ void ProcessUntil(sFONT font, int repeat, int timeout)
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
                 offset = GetNextLine(next_line, text, offset, max_line_length);
+                Debug("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
