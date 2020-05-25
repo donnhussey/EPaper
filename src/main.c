@@ -48,6 +48,7 @@ int main(int c, char **v)
 
 void ProcessForever(sFONT font, int timeout)
 {
+    printf("Printing forever...\n");
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
@@ -90,6 +91,7 @@ void GetInput(int buf_size, char *input_buf)
 
 void ProcessUntil(sFONT font, int repeat, int timeout)
 {
+    printf("Printing %i times...\n", repeat);
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
