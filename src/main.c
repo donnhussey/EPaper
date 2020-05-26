@@ -144,12 +144,19 @@ int GetNextLine(char output[], char input[], int input_offset, int max_line_leng
     {
         output[count] = input[input_offset + count];
         count++;
-    }
-    
+    } //this takes us to where we hit a newline, a null, or the max that we can fit on a line
+
+    //end every line with newline and then null terminate
     output[count] = '\n';
     output[count+1] = '\0';
-    if(input[input_offset + count] == '\0' || input[input_offset+count+1] == '\0')  return -1;
-    else return input_offset + count;
+
+    if(input[input_offset + count] == '\0'){
+        return -1;
+    }else
+    {
+        return input_offset+count;
+    }
+    
 }
 
 void Clear()
