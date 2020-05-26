@@ -75,11 +75,11 @@ int page(char *input, int max_line_count, int max_line_length)
     char page_text[max_line_count * max_line_length + 1];
 
     while(line < max_line_count && input[pos] != '\0'){
-        page_text[pos] = input[pos];
-        
-        if(input[pos] == '\n')
+        page_text[pos] = input[pos];      
+        if(input[pos] == '\n'){
             printf("newline!\n");
             line++;
+        }
         pos++;
     }
 
