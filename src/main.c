@@ -48,28 +48,24 @@ int main(int c, char **v)
 
 void ProcessForever(sFONT font, int timeout)
 {
-    printf("Printing forever...\n");
     const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
-    const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
-    UBYTE *pages; 
-
-    printf("Getting input\n");
-    char *input = GetInput(stdin, max_line_length);
+    const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height); 
     char page[max_line_count * max_line_length];
+    UBYTE *pages[10];
+    page_count = 0;
 
-    printf("\nwrapping input\n");
+    char *input = GetInput(stdin, max_line_length);
     wrap(input, max_line_length);
-    printf("paging input\n");
 
     input = NextPage(input, page, max_line_count);
 
     while(*input != '\0')
     {
-        printf(page);
-        printf("\n\n");
         input = NextPage(input, page, max_line_count);
+        pages[page_count] = Render(page, &font));
+        page_count++;
     }
-    //DisplayLoopAsync(timeout);
+    DisplayLoopAsync(timeout);
 }
 
 char *NextPage(char *input, char *output, int max_line_count)
