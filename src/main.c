@@ -61,7 +61,7 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("\nPaging Input\n");
 
-    char line[max_line_length];
+    char *line;
     char *text_page[max_line_count];
     int current_line = 0;
     int current_page = 0;
