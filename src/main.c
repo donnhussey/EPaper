@@ -68,7 +68,7 @@ void ProcessForever(sFONT font, int timeout)
     while(input != '\0'){
         for(current_line = 0; current_line < max_line_count && line != '\0'; current_line++)
         {
-             text_page[current_line] = GetNextLine(&input, &line, max_line_length);
+             text_page[current_line] = GetNextLine(input, line, max_line_length);
         }
         printf(text_page[current_line]);
     }
