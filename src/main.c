@@ -79,7 +79,7 @@ void ProcessForever(sFONT font, int timeout)
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
-    }while(!= -1);
+    }while(offset != -1);
 
     img_bufs = pages;
     DisplayLoopAsync(timeout);
