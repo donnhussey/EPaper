@@ -51,49 +51,35 @@ void ProcessForever(sFONT font, int timeout)
     printf("Printing forever...\n");
     int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
-    int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
-    int total_size = max_page_count * max_line_length * max_lines;
-    char next_line[max_line_length];
-    char page[max_line_length * max_lines];
+    int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
+    int total_size = max_page_count * max_line_length * max_line_count;
     UBYTE *pages[max_page_count]; 
 
     printf("Getting input\n");
-    char *text = GetInput(stdin, max_line_length);
+    char *input = GetInput(stdin, max_line_length);
     printf(text);
 
-    /* printf("Paging Input\n");
-    int page_position = 0;
-    int offset = 0;
-    page_count = 0;
-    do{
-        strcpy(page, "");
-        for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                *text = GetNextLine(next_line, text, offset, max_line_length);
-                if(text == '\0')
-                {
-                    printf("found null on line %i of %i on page %i\n", page_position, max_lines, page_count);
+    printf("\nPaging Input\n");
 
-                }
-                strcat(page, next_line);
+    char line[max_line_length];
+    char *text_page[max_line_count];
+    int current_line = 0;
+    int current_page = 0;
+    while(input != '\0'){
+        for(current_line = 0; current_line < max_line_count && line != '\0'; current_line++)
+        {
+             text_page[current_line] = GetNextLine(&input, &line, max_line_length);
         }
-        pages[page_count++] = Render(page, &font);
-    }while(offset != -1);
+        printf(text_page[current_line]);
+    }
 
+/*
     img_bufs = pages;
     DisplayLoopAsync(timeout); */
 }
 
-/* void GetInput(int buf_size, char *input_buf)
+char *GetInput(FILE* fp, size_t size)
 {
-    char line_buf[buf_size];
-    while(fgets(line_buf, buf_size, stdin) != NULL 
-     && buf_size > strlen(input_buf) + strlen(line_buf)){
-        input_buf = strcat(input_buf, strdup(line_buf));
-     }
-} */
-
-char *GetInput(FILE* fp, size_t size){
-//The size is extended by the input with the value of the provisional
     char *str;
     int ch;
     size_t len = 0;
@@ -159,26 +145,24 @@ UBYTE* Render(char page_content[], sFONT *font)
     return img_buf;
 }
 
-int GetNextLine(char output[], char input[], int input_offset, int max_line_length)
+char *GetNextLine(char *output, char *input, int max_line_length)
 {
     int count = 0;
+    char *output_cpy;
+    output_cpy = output;
     while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-2)
     {
-        output[count] = input[input_offset + count];
+        output = input;
+        *output_cpy++;
+        *input++;
         count++;
     } //this takes us to where we hit a newline, a null, or the max that we can fit on a line
+ 
+    output_cpy = '\n';
+    *output_cpy++;
+    output_cpy = '\0';
 
-    //end every line with newline and then null terminate
-    output[count] = '\n';
-    output[count+1] = '\0';
-
-    if(input[input_offset + count] == '\0'){
-        return -1;
-    }else
-    {
-        return input_offset+count;
-    }
-    
+    return output;
 }
 
 void Clear()
