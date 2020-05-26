@@ -177,8 +177,10 @@ void DisplayAsync(int timeout, int loop_count)
 
     while(current_loop < loop_count || initial_loop_count == 0)
     {
+        printf("loop %i of %i, forever if 0: %i\n", current_loop, loop_count, initial_loop_count);
         while(current_page < page_count)
         {
+            printf("page %i of %i", current_page, page_count);
             EPD_2IN13_V2_Display(*img_bufs_cpy);
             **img_bufs_cpy++;
             current_page++;
