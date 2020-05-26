@@ -63,7 +63,7 @@ void ProcessForever(sFONT font, int timeout)
     printf(input);
     printf("paging input\n");
 
-    input = NextPage(&input, page, max_line_count);
+    input = NextPage(input, page, max_line_count);
 
     while(*input != '\0')
     {
