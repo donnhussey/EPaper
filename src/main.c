@@ -53,7 +53,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
     page_count = 0;
 
     printf("allocating...\n");
-    if((img_bufs = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count)) == NULL) exit(1));
+    if((img_bufs = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count)) == NULL)) exit(1);
 
     while(*input != '\0')
     {
