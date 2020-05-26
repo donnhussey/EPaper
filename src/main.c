@@ -73,8 +73,8 @@ int page(char *input, int max_line_count, int max_line_length)
     char page_text = [max_line_count * max_line_length + 1];
 
     while(line < max_line_count && input != '\0'){
-        page_text[i] = *input;
-        i++;
+        page_text[pos] = *input;
+        pos++;
 
         if(*input == '\n')
             line++;
