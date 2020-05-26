@@ -61,7 +61,7 @@ void ProcessForever(sFONT font, int timeout)
     wrap(input, max_line_length);
     printf(input);
     printf("paging input\n");
-    page_count = page(input, max_line_length, max_line_count);
+    page_count = page(input, max_line_count, max_line_length);
 
 
     //DisplayLoopAsync(timeout);
@@ -86,7 +86,6 @@ int page(char *input, int max_line_count, int max_line_length)
     printf("%i lines\n", line);
     printf("%i characters\n", pos);
     page_text[pos] = '\0';
-
     printf(page_text);
     return 1;
 }
