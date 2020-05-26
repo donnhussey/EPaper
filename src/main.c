@@ -65,12 +65,9 @@ void ProcessForever(sFONT font, int timeout)
     char *text_page[max_line_count];
     int current_line = 0;
     int current_page = 0;
+
     while(input != '\0'){
-        for(current_line = 0; current_line < max_line_count && line != '\0'; current_line++)
-        {
-             text_page[current_line] = GetNextLine(*input, *line, max_line_length);
-        }
-        printf(text_page[current_line]);
+        putc(input);
     }
 
 /*
@@ -99,7 +96,7 @@ char *GetInput(FILE* fp, size_t size)
 
 void ProcessUntil(sFONT font, int repeat, int timeout)
 {
-
+    
 }
 
 UBYTE* Render(char page_content[], sFONT *font)
@@ -114,26 +111,6 @@ UBYTE* Render(char page_content[], sFONT *font)
     Paint_Clear(WHITE);
     Paint_DrawString_EN(1, 1, page_content, font, WHITE, BLACK);
     return img_buf;
-}
-
-char *GetNextLine(char *output, char *input, int max_line_length)
-{
-    int count = 0;
-    char *output_cpy;
-    output_cpy = output;
-    while(input != '\n' && input != '\0' && count < max_line_length-2)
-    {
-        output = input;
-        *output_cpy++;
-        *input++;
-        count++;
-    } //this takes us to where we hit a newline, a null, or the max that we can fit on a line
- 
-    output_cpy = '\n';
-    *output_cpy++;
-    output_cpy = '\0';
-
-    return output;
 }
 
 void Clear()
