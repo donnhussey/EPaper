@@ -92,6 +92,8 @@ void ProcessForever(sFONT font, int timeout)
             current_line++;
             current_column++;
         }
+
+        printf("%c %c", *text_page_cpy, *input);
     }
     *text_page_cpy = '\0';
 
