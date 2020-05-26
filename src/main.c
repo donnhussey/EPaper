@@ -49,11 +49,9 @@ int main(int c, char **v)
 void ProcessForever(sFONT font, int timeout)
 {
     printf("Printing forever...\n");
-    int max_page_count = 20;
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
     int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
-    int total_size = max_page_count * max_line_length * max_line_count;
-    UBYTE *pages[max_page_count]; 
+    UBYTE *pages; 
 
     printf("Getting input\n");
     char *input = GetInput(stdin, max_line_length);
@@ -61,12 +59,32 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("\wrapping input\n");
     wrap(input, max_line_length);
-
     printf(input);
+    page_count = page(input, max_line_length, max_line_count);
 
-/*
-    img_bufs = pages;
-    DisplayLoopAsync(timeout); */
+
+    //DisplayLoopAsync(timeout);
+}
+
+int page(char *input, int max_line_count, int max_line_length)
+{
+    int line = 0;
+    int pos = 0;
+    char page_text = [max_line_count * max_line_length + 1];
+
+    while(line < max_line_count && input != '\0'){
+        page_text[i] = *input;
+        i++;
+
+        if(*input == '\n')
+            line++;
+
+        input++;
+    }
+
+    page_text[i] = '\0';
+
+    printf(page_text);
 }
 
 int wordlen(const char * str){
