@@ -146,7 +146,7 @@ void Clear()
     DEV_Module_Exit();
 }
 
-void DisplayAsync(int timeout, int loop_count)
+void DisplayAsync(int timeout, int count)
 {
     /*
      int pid = fork();
@@ -168,7 +168,7 @@ void DisplayAsync(int timeout, int loop_count)
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    while(current_loop < loop_count || initial_loop_count == 0)
+    while(current_loop < count || initial_loop_count == 0)
     {
         while(current_page < page_count)
         {
