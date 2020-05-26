@@ -65,6 +65,7 @@ void ProcessForever(sFONT font, int timeout)
         pages[page_count] = Render(page, &font);
         page_count++;
     }
+    img_bufs = pages;
     DisplayLoopAsync(timeout);
 }
 
