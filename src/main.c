@@ -55,17 +55,24 @@ int main(int c, char **v)
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
 {
     char page[max_line_count * max_line_length];
-    UBYTE *pages[10];
+    int max_page_count = 5;
+    if(img_bufs = (UBYTE **)malloc(sizeof(UBYTE *) * max_page_count) == NULL) return -1;
+
     page_count = 0;
 
     while(*input != '\0')
     {
+        if(page_count >= max_page_count)
+        {
+            max_page_count *= 2;
+            realloc(img_bufs, sizeof(UBYTE *) * max_page_count);
+        }
+        
         input = GetNextPage(input, page, max_line_count);
-        pages[page_count] = Render(page, &font);
+        img_bufs[page_count] = Render(page, &font);
         printf(page);
         page_count++;
     }
-    img_bufs = pages;
     //DisplayAsync(5, 1);
 }
 
