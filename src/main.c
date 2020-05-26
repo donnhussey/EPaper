@@ -57,14 +57,13 @@ void ProcessForever(sFONT font, int timeout)
     char *input = GetInput(stdin, max_line_length);
     wrap(input, max_line_length);
 
-    input = NextPage(input, page, max_line_count);
     printf("max page height: %i\n\n", max_line_count);
     while(*input != '\0')
     {
+        input = NextPage(input, page, max_line_count);
         pages[page_count] = Render(page, &font);
         printf(page);
-        printf("\n\n");
-        input = NextPage(input, page, max_line_count);     
+        printf("\n\n");  
         page_count++;
     }
     img_bufs = pages;
