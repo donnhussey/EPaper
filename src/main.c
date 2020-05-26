@@ -71,7 +71,7 @@ void ProcessForever(sFONT font, int timeout)
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
                 offset = GetNextLine(next_line, text, offset, max_line_length);
-                if(input[offset] == '\0')
+                if(text[offset] == '\0')
                 {
                     printf("found null on line %i of %i on page %i\n", page_position, max_lines, page_count);
 
