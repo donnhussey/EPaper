@@ -62,7 +62,7 @@ void ProcessForever(sFONT font, int timeout)
     while(*input != '\0')
     {
         input = NextPage(input, page, max_line_count);
-        pages[page_count] = Render(page, &font));
+        pages[page_count] = Render(page, &font);
         page_count++;
     }
     DisplayLoopAsync(timeout);
