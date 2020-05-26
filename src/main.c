@@ -66,9 +66,9 @@ void ProcessForever(sFONT font, int timeout)
     int current_line = 0;
     int current_page = 0;
 
-    while(input != '\0'){
-        *input++;
-        printf("%c", input);
+    while(*input != '\0'){
+        input++;
+        printf("%c", *input);
     }
 
 /*
