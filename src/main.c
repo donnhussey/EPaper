@@ -49,7 +49,7 @@ int main(int c, char **v)
     printf("Building Pages\n");
     BuildPages(input, max_line_count, max_line_length, font);
     printf("Displaying\n");
-    DisplayAsync(timeout, iterations);
+    DisplayAsync(5, 1);
 }
 
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
@@ -66,7 +66,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         page_count++;
     }
     img_bufs = pages;
-    DisplayAsync(5, 1);
+    //DisplayAsync(5, 1);
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
@@ -154,7 +154,7 @@ void Clear()
     DEV_Module_Exit();
 }
 
-void DisplayAsync(int timeout, int loop_count)
+void DisplayAsync(int timeout, int iterations)
 {
     /*
      int pid = fork();
@@ -172,15 +172,15 @@ void DisplayAsync(int timeout, int loop_count)
 
     int current_page = 0;
     int current_loop = 0;
-    int initial_loop_count = loop_count;
+    int initial_loop_count = iterations;
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
     printf("page %i of %i", current_page, page_count);
 
-    while(current_loop < loop_count || initial_loop_count == 0)
+    while(current_loop < iterations || iterations == 0)
     {
-        printf("loop %i of %i, forever if 0: %i\n", current_loop, loop_count, initial_loop_count);
+        printf("loop %i of %i, forever if 0: %i\n", current_loop, iterations, initial_loop_count);
         while(current_page < page_count)
         {
             printf("page %i of %i", current_page, page_count);
