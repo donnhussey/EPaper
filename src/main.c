@@ -77,7 +77,8 @@ char *GetNextPage(char *input, char *output, int max_line_count)
     return &input[pos];
 }
 
-int CalculateWordLength(const char * str){
+int CalculateWordLength(const char * str)
+{
    int tempindex=0;
    while(str[tempindex]!=' ' && str[tempindex]!=0 && str[tempindex]!='\n'){
       ++tempindex;
