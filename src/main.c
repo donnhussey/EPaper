@@ -63,13 +63,13 @@ void ProcessForever(sFONT font, int timeout)
     printf(input);
     printf("paging input\n");
 
-    input = page(&input, page, max_line_count, max_line_length);
+    input = NextPage(&input, page, max_line_count, max_line_length);
 
     while(*input != '\0')
     {
         printf(page);
         printf("\n\n");
-        input = page(&input, page, max_line_count, max_line_length);
+        input = NextPage(&input, page, max_line_count, max_line_length);
     }
     //DisplayLoopAsync(timeout);
 }
