@@ -12,7 +12,7 @@
 
 int main(int c, char **v);
 void Process();
-void GetInput(int buf_size, char* inputBuffer);
+char *GetInput(FILE* fp, size_t size){
 UBYTE* Render(char *page_content, sFONT *font);
 int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
 void DisplayLoopAsync(int timeout);

@@ -53,25 +53,23 @@ void ProcessForever(sFONT font, int timeout)
     int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
     int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     int total_size = max_page_count * max_line_length * max_lines;
-    char text[total_size];
     char next_line[max_line_length];
     char page[max_line_length * max_lines];
-    UBYTE *pages[max_page_count];
-    strcpy(text, "");
+    UBYTE *pages[max_page_count]; 
 
     printf("Getting input\n");
-    GetInput(total_size, text);
+    char *text = GetInput(stdin, max_line_length);
     printf(text);
 
-    printf("Paging Input\n");
+    /* printf("Paging Input\n");
     int page_position = 0;
     int offset = 0;
     page_count = 0;
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                offset = GetNextLine(next_line, text, offset, max_line_length);
-                if(text[offset] == '\0')
+                *text = GetNextLine(next_line, text, offset, max_line_length);
+                if(text == '\0')
                 {
                     printf("found null on line %i of %i on page %i\n", page_position, max_lines, page_count);
 
@@ -82,16 +80,35 @@ void ProcessForever(sFONT font, int timeout)
     }while(offset != -1);
 
     img_bufs = pages;
-    DisplayLoopAsync(timeout);
+    DisplayLoopAsync(timeout); */
 }
 
-void GetInput(int buf_size, char *input_buf)
+/* void GetInput(int buf_size, char *input_buf)
 {
     char line_buf[buf_size];
     while(fgets(line_buf, buf_size, stdin) != NULL 
      && buf_size > strlen(input_buf) + strlen(line_buf)){
         input_buf = strcat(input_buf, strdup(line_buf));
      }
+} */
+
+char *GetInput(FILE* fp, size_t size){
+//The size is extended by the input with the value of the provisional
+    char *str;
+    int ch;
+    size_t len = 0;
+    str = realloc(NULL, sizeof(char)*size);//size is start size
+    if(!str)return str;
+    while(EOF!=(ch=fgetc(fp)) && ch != '\n'){
+        str[len++]=ch;
+        if(len==size){
+            str = realloc(str, sizeof(char)*(size+=16));
+            if(!str)return str;
+        }
+    }
+    str[len++]='\0';
+
+    return realloc(str, sizeof(char)*len);
 }
 
 void ProcessUntil(sFONT font, int repeat, int timeout)
