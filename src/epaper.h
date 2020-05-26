@@ -23,4 +23,4 @@ void Clear();
 sFONT GetFont(char* fontsize);
 int wordlen(const char * str);
 void wrap(char * s, const int wrapline);
-char *NextPage(char *input, char *output, int max_line_count)
+char *NextPage(char *input, char *output, int max_line_count);
