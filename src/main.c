@@ -78,6 +78,7 @@ void ProcessForever(sFONT font, int timeout)
 char *GetNextLine(char *input, char *output, int max_line_length)
 {
     while(*input != '\0'){
+        sleep(1);
         printf("%c", *input);
         input++;
     }
