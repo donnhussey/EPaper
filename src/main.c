@@ -69,7 +69,7 @@ void ProcessForever(sFONT font, int timeout)
     DisplayLoopAsync(timeout); */
 }
 
-inline int wordlen(const char * str){
+int wordlen(const char * str){
    int tempindex=0;
    while(str[tempindex]!=' ' && str[tempindex]!=0 && str[tempindex]!='\n'){
       ++tempindex;
