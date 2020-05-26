@@ -81,6 +81,8 @@ char *GetNextLine(char *input, char *output, int max_line_length)
         printf("%c", *input);
         input++;
     }
+
+    return output;
 }
 
 char *GetInput(FILE* fp, size_t size)

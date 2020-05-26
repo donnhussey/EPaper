@@ -21,3 +21,4 @@ void ProcessForever(sFONT font, int timeout);
 void ProcessUntil(sFONT font, int repeat, int timeout);
 void Clear();
 sFONT GetFont(char* fontsize);
+char *GetNextLine(char *input, char *output, int max_line_length);
