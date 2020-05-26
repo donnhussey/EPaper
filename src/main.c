@@ -150,7 +150,7 @@ char *GetNextLine(char *output, char *input, int max_line_length)
     int count = 0;
     char *output_cpy;
     output_cpy = output;
-    while(input[count + input_offset] != '\n' && input[count + input_offset] != '\0' && count < max_line_length-2)
+    while(input != '\n' && input != '\0' && count < max_line_length-2)
     {
         output = input;
         *output_cpy++;
