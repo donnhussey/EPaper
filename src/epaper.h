@@ -14,7 +14,7 @@ int main(int c, char **v);
 void Process();
 char *GetInput(FILE* fp, size_t size);
 UBYTE* Render(char *page_content, sFONT *font);
-int GetNextLine(char output[], char input[], int input_offset, int max_line_length);
+char *GetNextLine(char *output, char *input, int max_line_length);
 void DisplayLoopAsync(int timeout);
 void DisplayAsync(int timeout, int display_loops);
 void  Dispose(int signo);
