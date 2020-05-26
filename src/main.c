@@ -88,7 +88,7 @@ char *NextPage(char *input, char *output, int max_line_count)
         pos++;
     }
 
-    return *input[pos];
+    return &input[pos];
 }
 
 int wordlen(const char * str){
