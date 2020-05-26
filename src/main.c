@@ -60,6 +60,7 @@ void ProcessForever(sFONT font, int timeout)
     printf("\wrapping input\n");
     wrap(input, max_line_length);
     printf(input);
+    printf("paging input\n");
     page_count = page(input, max_line_length, max_line_count);
 
 
@@ -72,14 +73,12 @@ int page(char *input, int max_line_count, int max_line_length)
     int pos = 0;
     char page_text[max_line_count * max_line_length + 1];
 
-    while(line < max_line_count && *input != '\0'){
-        page_text[pos] = *input;
-        pos++;
-
-        if(*input == '\n')
+    while(line < max_line_count && input[pos] != '\0'){
+        page_text[pos] = input[pos];
+        
+        if(input[pos] == '\n')
             line++;
-
-        input++;
+        pos++;
     }
 
     page_text[pos] = '\0';
