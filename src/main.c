@@ -67,7 +67,7 @@ void ProcessForever(sFONT font, int timeout)
     int current_page = 0;
 
     while(input != '\0'){
-        putc(input);
+        putc(input, stdout);
     }
 
 /*
@@ -96,7 +96,7 @@ char *GetInput(FILE* fp, size_t size)
 
 void ProcessUntil(sFONT font, int repeat, int timeout)
 {
-    
+
 }
 
 UBYTE* Render(char page_content[], sFONT *font)
