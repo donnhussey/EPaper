@@ -40,30 +40,27 @@ int main(int c, char **v)
     const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width);
     const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height); 
     
-    printf("getting input\n");
     char *input = GetInput(stdin, max_line_length);
-    printf(input);
-    printf("Wrapping input\n");
     Wrap(input, max_line_length);
-    printf(input);
-    printf("Building Pages\n");
     BuildPages(input, max_line_count, max_line_length, font);
-    printf("Displaying\n");
     DisplayAsync(5, 1);
 }
 
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
 {
     char page[max_line_count * max_line_length];
-    int max_page_count = 5;
-    if(img_bufs = (UBYTE **)malloc(sizeof(UBYTE *) * max_page_count) == NULL) exit(1);
-
+    int max_page_count = 1;
     page_count = 0;
+
+    printf("allocating...\n");
+    if((img_buf = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count)) == NULL) exit(1));
 
     while(*input != '\0')
     {
+        printf("building page %i", page_count);
         if(page_count >= max_page_count)
         {
+            printf("reallocating...\n");
             max_page_count *= 2;
             realloc(img_bufs, sizeof(UBYTE *) * max_page_count);
         }
@@ -73,7 +70,6 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         printf(page);
         page_count++;
     }
-    //DisplayAsync(5, 1);
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
