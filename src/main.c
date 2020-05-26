@@ -69,7 +69,7 @@ void ProcessForever(sFONT font, int timeout)
 
 int page(char *input, int max_line_count, int max_line_length)
 {
-    printf("%i %i", max_line_length, max_line_count);
+    printf("%i %i\n", max_line_length, max_line_count);
     int line = 0;
     int pos = 0;
     char page_text[max_line_count * max_line_length + 1];
@@ -83,7 +83,7 @@ int page(char *input, int max_line_count, int max_line_length)
         pos++;
     }
 
-    printf("%i pages\n", line);
+    printf("%i lines\n", line);
     printf("%i characters\n", pos);
     page_text[pos] = '\0';
 
