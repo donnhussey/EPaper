@@ -42,8 +42,10 @@ int main(int c, char **v)
     
     printf("getting input\n");
     char *input = GetInput(stdin, max_line_length);
+    printf(input);
     printf("Wrapping input\n");
     Wrap(input, max_line_length);
+    printf(input);
     printf("Building Pages\n");
     BuildPages(input, max_line_count, max_line_length, font);
     printf("Displaying\n");
@@ -60,6 +62,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
     {
         input = GetNextPage(input, page, max_line_count);
         pages[page_count] = Render(page, &font);
+        printf(page);
         page_count++;
     }
     img_bufs = pages;
