@@ -61,14 +61,37 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("\nPaging Input\n");
 
-    char *line;
-    char *text_page[max_line_count];
+    char line[max_line_length];
+    char *text_page;
+    if(text_page = malloc((sizeof(char) * max_line_count * (max_line_length+1))) == NULL) exit 1;
     int current_line = 0;
-    int current_page = 0;
+    int current_column;
 
-    while(*input != '\0'){
-            line = GetNextLine(&input, line, max_line_length);
+    while(*input != '\0' && current_line < max_line_count)
+    {
+        if(*input = '\n')
+        {
+            *text_page = *input;
+            text_page++;
+            input++;
+            current_line++;
+            current_column = 0;
+        }else if(current_column >= max_line_length)
+        {
+            *text_page = '\n';
+            text_page++;
+            current_line++;
+            current_column = 0;
+        }else
+        {
+            *text_page = *input;
+            text_page++;
+            current_line++;
+            current_column++;
+        }
     }
+
+    printf(current_line);
 
 /*
     img_bufs = pages;
@@ -77,7 +100,7 @@ void ProcessForever(sFONT font, int timeout)
 
 char *GetNextLine(char *input, char *output, int max_line_length)
 {
-    printf(input);
+    printf(*input);
     while(*input != '\0'){
         sleep(1);
         printf("%c", *input);
