@@ -57,7 +57,7 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("Getting input\n");
     char *input = GetInput(stdin, max_line_length);
-    printf(text);
+    printf(input);
 
     printf("\nPaging Input\n");
 
