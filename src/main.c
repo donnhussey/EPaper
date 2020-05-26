@@ -55,27 +55,32 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("Getting input\n");
     char *input = GetInput(stdin, max_line_length);
+    char page[max_line_count * max_line_length];
     printf(input);
 
     printf("\wrapping input\n");
     wrap(input, max_line_length);
     printf(input);
     printf("paging input\n");
-    page_count = page(input, max_line_count, max_line_length);
 
+    input = page(&input, page, max_line_count, max_line_length);
 
+    while(*input != '\0')
+    {
+        printf(page);
+        printf("\n\n");
+        input = page(&input, page, max_line_count, max_line_length);
+    }
     //DisplayLoopAsync(timeout);
 }
 
-int page(char *input, int max_line_count, int max_line_length)
+char *NextPage(char *input, char *output, int max_line_count)
 {
-    printf("%i %i\n", max_line_length, max_line_count);
     int line = 0;
     int pos = 0;
-    char page_text[max_line_count * max_line_length + 1];
 
     while(line < max_line_count && input[pos] != '\0'){
-        page_text[pos] = input[pos];      
+        output[pos] = input[pos];      
         if(input[pos] == '\n'){
             printf("newline!\n");
             line++;
@@ -83,11 +88,7 @@ int page(char *input, int max_line_count, int max_line_length)
         pos++;
     }
 
-    printf("%i lines\n", line);
-    printf("%i characters\n", pos);
-    page_text[pos] = '\0';
-    printf(page_text);
-    return 1;
+    return *input[pos];
 }
 
 int wordlen(const char * str){
