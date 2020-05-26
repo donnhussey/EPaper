@@ -56,7 +56,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
 {
     char page[max_line_count * max_line_length];
     int max_page_count = 5;
-    if(img_bufs = (UBYTE **)malloc(sizeof(UBYTE *) * max_page_count) == NULL) return -1;
+    if(img_bufs = (UBYTE **)malloc(sizeof(UBYTE *) * max_page_count) == NULL) exit(1);
 
     page_count = 0;
 
@@ -67,7 +67,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
             max_page_count *= 2;
             realloc(img_bufs, sizeof(UBYTE *) * max_page_count);
         }
-        
+
         input = GetNextPage(input, page, max_line_count);
         img_bufs[page_count] = Render(page, &font);
         printf(page);
