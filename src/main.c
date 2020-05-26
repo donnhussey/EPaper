@@ -59,62 +59,41 @@ void ProcessForever(sFONT font, int timeout)
     char *input = GetInput(stdin, max_line_length);
     printf(input);
 
-    printf("\nPaging Input\n");
+    printf("\wrapping input\n");
+    wrap(input, max_line_length);
 
-    char line[max_line_length];
-    char *text_page;
-    char *text_page_cpy;
-    if(text_page = (char*)malloc(sizeof(char) * max_line_count * (max_line_length+1)) == NULL) exit(1);
-    text_page_cpy = text_page;
-    int current_line = 0;
-    int current_column;
-
-    while(*input != '\0' && current_line < max_line_count)
-    {
-        printf("%c %c", *text_page_cpy, *input);
-        if(*input = '\n')
-        {
-            *text_page_cpy = *input;
-            text_page_cpy++;
-            input++;
-            current_line++;
-            current_column = 0;
-        }else if(current_column >= max_line_length)
-        {
-            *text_page_cpy = '\n';
-            text_page_cpy++;
-            current_line++;
-            current_column = 0;
-        }else
-        {
-            *text_page_cpy = *input;
-            text_page_cpy++;
-            input++;
-            current_line++;
-            current_column++;
-        }
-
-        printf("%c %c", *text_page_cpy, *input);
-    }
-    *text_page_cpy = '\0';
-
-    printf(text_page);
+    printf(input);
 
 /*
     img_bufs = pages;
     DisplayLoopAsync(timeout); */
 }
 
-char *GetNextLine(char *input, char *output, int max_line_length)
-{
-    printf(*input);
-    while(*input != '\0'){
-        sleep(1);
-        printf("%c", *input);
-        input++;
-    }
+inline int wordlen(const char * str){
+   int tempindex=0;
+   while(str[tempindex]!=' ' && str[tempindex]!=0 && str[tempindex]!='\n'){
+      ++tempindex;
+   }
+   return(tempindex);
+}
 
-    return output;
+void wrap(char * s, const int wrapline){
+
+   int index=0;
+   int curlinelen = 0;
+   while(s[index] != '\0'){
+      if(s[index] == '\n'){
+         curlinelen=0;
+      }
+      else if(s[index] == ' '){
+         if(curlinelen+wordlen(&s[index+1]) >= wrapline){
+            s[index] = '\n';
+            curlinelen = 0;
+         }
+      }
+      curlinelen++;
+      index++;
+   }
 }
 
 char *GetInput(FILE* fp, size_t size)
