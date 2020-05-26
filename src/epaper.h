@@ -11,7 +11,7 @@
 #include <string.h>
 
 int main(int c, char **v);
-void BuildPages(int max_line_count, int max_line_length, int timeout, int count);
+void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font);
 char *GetNextPage(char *input, char *output, int max_line_count);
 int CalculateWordLength(const char * str);
 void Wrap(char * s, const int wrapline);
