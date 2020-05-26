@@ -76,7 +76,7 @@ char *NextPage(char *input, char *output, int max_line_count)
     int line = 0;
     int pos = 0;
 
-    while(line < max_line_count && input[pos] != '\0'){
+    while(line < max_line_count - 2 && input[pos] != '\0'){
         output[pos] = input[pos];      
         if(input[pos] == '\n'){
             line++;
