@@ -63,7 +63,7 @@ void ProcessForever(sFONT font, int timeout)
 
     char line[max_line_length];
     char *text_page;
-    if(text_page = malloc((sizeof(char) * max_line_count * (max_line_length+1))) == NULL) exit 1;
+    if(text_page = (char*)malloc(sizeof(char) * max_line_count * (max_line_length+1)) == NULL) exit(1);
     int current_line = 0;
     int current_column;
 
