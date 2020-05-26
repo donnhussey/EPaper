@@ -40,13 +40,13 @@ int main(int c, char **v)
     const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width);
     const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height); 
     
-    Debug("getting input\n");
+    printf("getting input\n");
     char *input = GetInput(stdin, max_line_length);
-    Debug("Wrapping input\n");
+    printf("Wrapping input\n");
     Wrap(input, max_line_length);
-    Debug("Building Pages\n");
+    printf("Building Pages\n");
     BuildPages(input, max_line_count, max_line_length, font);
-    Debug("Displaying\n");
+    printf("Displaying\n");
     DisplayAsync(timeout, iterations);
 }
 
