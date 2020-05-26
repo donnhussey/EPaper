@@ -85,6 +85,7 @@ int page(char *input, int max_line_count, int max_line_length)
     page_text[i] = '\0';
 
     printf(page_text);
+    return 1;
 }
 
 int wordlen(const char * str){
