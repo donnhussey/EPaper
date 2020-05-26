@@ -49,8 +49,8 @@ int main(int c, char **v)
 void ProcessForever(sFONT font, int timeout)
 {
     printf("Printing forever...\n");
-    int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
-    int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
+    const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
+    const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
     UBYTE *pages; 
 
     printf("Getting input\n");
@@ -77,10 +77,13 @@ int page(char *input, int max_line_count, int max_line_length)
         page_text[pos] = input[pos];
         
         if(input[pos] == '\n')
+            printf("newline!\n");
             line++;
         pos++;
     }
 
+    printf("%i pages\n", line);
+    printf("%i characters\n", pos);
     page_text[pos] = '\0';
 
     printf(page_text);
