@@ -12,7 +12,6 @@ int main(int c, char **v)
     sFONT font = Font12;
     persist = 0;
 
-
     while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
@@ -37,40 +36,32 @@ int main(int c, char **v)
         default: //default
             break;
     }
-    
 
-    printf("Iterations: %i", iterations);
-    if(iterations > 0)
-        ProcessUntil(font, iterations, timeout);
-    else
-        ProcessForever(font, timeout);
+    const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width);
+    const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height); 
+    
+    char *input = GetInput(stdin, max_line_length);
+    Wrap(input, max_line_length);
+    BuildPages(max_line_count, max_line_length, font);
+    DisplayAsync(timeout, count);
 }
 
-void ProcessForever(sFONT font, int timeout)
+void BuildPages(int max_line_count, int max_line_length, int timeout, int count)
 {
-    const int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
-    const int max_line_count = (int)(EPD_2IN13_V2_WIDTH / font.Height); 
     char page[max_line_count * max_line_length];
     UBYTE *pages[10];
     page_count = 0;
 
-    char *input = GetInput(stdin, max_line_length);
-    wrap(input, max_line_length);
-
-    printf("max page height: %i\n\n", max_line_count);
     while(*input != '\0')
     {
-        input = NextPage(input, page, max_line_count);
+        input = GetNextPage(input, page, max_line_count);
         pages[page_count] = Render(page, &font);
-        printf(page);
-        printf("\n\n");  
         page_count++;
     }
     img_bufs = pages;
-    DisplayLoopAsync(timeout);
 }
 
-char *NextPage(char *input, char *output, int max_line_count)
+char *GetNextPage(char *input, char *output, int max_line_count)
 {
     int line = 0;
     int pos = 0;
@@ -86,7 +77,7 @@ char *NextPage(char *input, char *output, int max_line_count)
     return &input[pos];
 }
 
-int wordlen(const char * str){
+int CalculateWordLength(const char * str){
    int tempindex=0;
    while(str[tempindex]!=' ' && str[tempindex]!=0 && str[tempindex]!='\n'){
       ++tempindex;
@@ -94,7 +85,7 @@ int wordlen(const char * str){
    return(tempindex);
 }
 
-void wrap(char * s, const int wrapline){
+void Wrap(char * s, const int wrapline){
 
    int index=0;
    int curlinelen = 0;
@@ -103,7 +94,7 @@ void wrap(char * s, const int wrapline){
          curlinelen=0;
       }
       else if(s[index] == ' '){
-         if(curlinelen+wordlen(&s[index+1]) >= wrapline){
+         if(curlinelen+CalculateWordLength(&s[index+1]) >= wrapline){
             s[index] = '\n';
             curlinelen = 0;
          }
@@ -132,11 +123,6 @@ char *GetInput(FILE* fp, size_t size)
     return realloc(str, sizeof(char)*len);
 }
 
-void ProcessUntil(sFONT font, int repeat, int timeout)
-{
-
-}
-
 UBYTE* Render(char page_content[], sFONT *font)
 {
     UBYTE *img_buf;
@@ -159,42 +145,6 @@ void Clear()
     DEV_Module_Exit();
 }
 
-void DisplayLoopAsync(int timeout)
-{
-    /*
-    int pid = fork();
-
-    if(pid == -1)
-        exit(1);
-    else if(pid > 0)
-        return;
-        */
-
-    signal(SIGINT, Dispose);
-
-    if(DEV_Module_Init()!=0) exit(1); //initialize display
-    EPD_2IN13_V2_Init(EPD_2IN13_V2_FULL);
-    EPD_2IN13_V2_Clear();
-
-    int current_page = 0;
-    UBYTE **img_bufs_cpy;
-    img_bufs_cpy = img_bufs;
-
-    while(1)
-    {
-        printf("Attempting to display %i of %i\n", current_page, page_count);
-        if(current_page == page_count) {
-            img_bufs_cpy = img_bufs;
-            current_page = 0;
-        }
-
-        EPD_2IN13_V2_Display(*img_bufs_cpy);
-        **img_bufs_cpy++;
-        current_page++;
-        sleep(timeout);
-    }
-}
-
 void DisplayAsync(int timeout, int loop_count)
 {
     /*
@@ -213,21 +163,21 @@ void DisplayAsync(int timeout, int loop_count)
 
     int current_page = 0;
     int current_loop = 0;
+    int initial_loop_count = loop_count;
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    while(current_loop < loop_count)
+    while(current_loop < loop_count || initial_loop_count == 0)
     {
         while(current_page < page_count)
         {
             EPD_2IN13_V2_Display(*img_bufs_cpy);
-            printf("displaying page %i of %i, iteration %i of %i\n", current_page, page_count, current_loop, loop_count);
             **img_bufs_cpy++;
             current_page++;
             sleep(timeout);
         }
-	img_bufs_cpy = img_bufs;
-	current_page = 0; 
+	    img_bufs_cpy = img_bufs;
+	    current_page = 0; 
         current_loop++;
     }
 
