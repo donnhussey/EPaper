@@ -56,11 +56,9 @@ void ProcessForever(sFONT font, int timeout)
     printf("Getting input\n");
     char *input = GetInput(stdin, max_line_length);
     char page[max_line_count * max_line_length];
-    printf(input);
 
-    printf("\wrapping input\n");
+    printf("\nwrapping input\n");
     wrap(input, max_line_length);
-    printf(input);
     printf("paging input\n");
 
     input = NextPage(input, page, max_line_count);
@@ -82,7 +80,6 @@ char *NextPage(char *input, char *output, int max_line_count)
     while(line < max_line_count && input[pos] != '\0'){
         output[pos] = input[pos];      
         if(input[pos] == '\n'){
-            printf("newline!\n");
             line++;
         }
         pos++;
