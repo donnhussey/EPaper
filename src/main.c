@@ -42,11 +42,11 @@ int main(int c, char **v)
     
     char *input = GetInput(stdin, max_line_length);
     Wrap(input, max_line_length);
-    BuildPages(max_line_count, max_line_length, font);
+    BuildPages(input, max_line_count, max_line_length, font);
     DisplayAsync(timeout, count);
 }
 
-void BuildPages(int max_line_count, int max_line_length, int timeout, int count)
+void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
 {
     char page[max_line_count * max_line_length];
     UBYTE *pages[10];
@@ -86,8 +86,8 @@ int CalculateWordLength(const char * str)
    return(tempindex);
 }
 
-void Wrap(char * s, const int wrapline){
-
+void Wrap(char * s, const int wrapline)
+{
    int index=0;
    int curlinelen = 0;
    while(s[index] != '\0'){
