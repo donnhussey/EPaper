@@ -99,36 +99,7 @@ char *GetInput(FILE* fp, size_t size)
 
 void ProcessUntil(sFONT font, int repeat, int timeout)
 {
-    printf("Printing %i times...\n", repeat);
-    int max_page_count = 20;
-    int max_line_length = (int)(EPD_2IN13_V2_HEIGHT / font.Width); //these are backwards - constants are for portrait mode
-    int max_lines = (int)(EPD_2IN13_V2_WIDTH / font.Height);  
-    int total_size = max_page_count * max_line_length * max_lines;
 
-    char text[total_size];
-    char next_line[max_line_length];
-    char page[max_line_length * max_lines];
-    UBYTE *pages[max_page_count];
-
-    strcpy(text, "");
-
-    GetInput(total_size, text);
-
-    int page_position = 0;
-    int offset = 0;
-    page_count = 0;
-    do{
-        strcpy(page, "");
-        for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                offset = GetNextLine(next_line, text, offset, max_line_length);
-                printf("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
-                strcat(page, next_line);
-        }
-        pages[page_count++] = Render(page, &font);
-    }while(offset != -1);
-
-    img_bufs = pages;
-    DisplayAsync(timeout, repeat);
 }
 
 UBYTE* Render(char page_content[], sFONT *font)
