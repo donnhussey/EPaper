@@ -66,6 +66,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         page_count++;
     }
     img_bufs = pages;
+    DisplayAsync(5, 1);
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
