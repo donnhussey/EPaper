@@ -63,7 +63,9 @@ void ProcessForever(sFONT font, int timeout)
 
     char line[max_line_length];
     char *text_page;
+    char *text_page_cpy;
     if(text_page = (char*)malloc(sizeof(char) * max_line_count * (max_line_length+1)) == NULL) exit(1);
+    text_page_cpy = text_page;
     int current_line = 0;
     int current_column;
 
@@ -71,27 +73,29 @@ void ProcessForever(sFONT font, int timeout)
     {
         if(*input = '\n')
         {
-            *text_page = *input;
-            text_page++;
+            *text_page_cpy = *input;
+            text_page_cpy++;
             input++;
             current_line++;
             current_column = 0;
         }else if(current_column >= max_line_length)
         {
-            *text_page = '\n';
-            text_page++;
+            *text_page_cpy = '\n';
+            text_page_cpy++;
             current_line++;
             current_column = 0;
         }else
         {
-            *text_page = *input;
-            text_page++;
+            *text_page_cpy = *input;
+            text_page_cpy++;
+            input++;
             current_line++;
             current_column++;
         }
     }
+    *text_page_cpy = '\0';
 
-    printf(current_line);
+    printf(text_page);
 
 /*
     img_bufs = pages;
