@@ -71,6 +71,7 @@ void ProcessForever(sFONT font, int timeout)
 
     while(*input != '\0' && current_line < max_line_count)
     {
+        printf("%c %c", *text_page_cpy, *input);
         if(*input = '\n')
         {
             *text_page_cpy = *input;
