@@ -61,6 +61,7 @@ void ProcessForever(sFONT font, int timeout)
 
     printf("Getting input\n");
     GetInput(total_size, text);
+    printf(text);
 
     printf("Paging Input\n");
     int page_position = 0;
@@ -69,12 +70,16 @@ void ProcessForever(sFONT font, int timeout)
     do{
         strcpy(page, "");
         for(page_position = 0; page_position < max_lines && offset != -1; page_position++){
-                printf("Rendering line %i of %i on page %i\n", page_position, max_lines, page_count);
                 offset = GetNextLine(next_line, text, offset, max_line_length);
+                if(input[offset] == '\0')
+                {
+                    printf("found null on line %i of %i on page %i\n", page_position, max_lines, page_count);
+
+                }
                 strcat(page, next_line);
         }
         pages[page_count++] = Render(page, &font);
-    }while(offset != -1);
+    }while(!= -1);
 
     img_bufs = pages;
     DisplayLoopAsync(timeout);
@@ -169,12 +174,14 @@ void Clear()
 
 void DisplayLoopAsync(int timeout)
 {
+    /*
     int pid = fork();
 
     if(pid == -1)
         exit(1);
     else if(pid > 0)
         return;
+        */
 
     signal(SIGINT, Dispose);
 
@@ -203,13 +210,14 @@ void DisplayLoopAsync(int timeout)
 
 void DisplayAsync(int timeout, int loop_count)
 {
+    /*
      int pid = fork();
 
      if(pid == -1)
          exit(1);
      else if(pid > 0)
          return;
-
+*/
     signal(SIGINT, Dispose);
 
     if(DEV_Module_Init()!=0) exit(1);
