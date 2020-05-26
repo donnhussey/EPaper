@@ -61,11 +61,11 @@ void ProcessForever(sFONT font, int timeout)
     printf("max page height: %i\n\n", max_line_count);
     while(*input != '\0')
     {
-        input = NextPage(input, page, max_line_count);
         pages[page_count] = Render(page, &font);
-        page_count++;
         printf(page);
         printf("\n\n");
+        input = NextPage(input, page, max_line_count);     
+        page_count++;
     }
     img_bufs = pages;
     DisplayLoopAsync(timeout);
@@ -76,7 +76,7 @@ char *NextPage(char *input, char *output, int max_line_count)
     int line = 0;
     int pos = 0;
 
-    while(line < max_line_count - 2 && input[pos] != '\0'){
+    while(line < max_line_count - 1 && input[pos] != '\0'){
         output[pos] = input[pos];      
         if(input[pos] == '\n'){
             line++;
