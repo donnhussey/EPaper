@@ -99,7 +99,7 @@ char *GetInput(FILE* fp, size_t size){
     size_t len = 0;
     str = realloc(NULL, sizeof(char)*size);//size is start size
     if(!str)return str;
-    while(EOF!=(ch=fgetc(fp)) && ch != '\n'){
+    while(EOF!=(ch=fgetc(fp))){
         str[len++]=ch;
         if(len==size){
             str = realloc(str, sizeof(char)*(size+=16));
