@@ -67,13 +67,20 @@ void ProcessForever(sFONT font, int timeout)
     int current_page = 0;
 
     while(*input != '\0'){
-        input++;
-        printf("%c", *input);
+            line = GetNextLine(&input, line, max_line_length)
     }
 
 /*
     img_bufs = pages;
     DisplayLoopAsync(timeout); */
+}
+
+char *GetNextLine(char *input, char *output, int max_line_length)
+{
+    while(*input != '\0'){
+        printf("%c", *input);
+        input++;
+    }
 }
 
 char *GetInput(FILE* fp, size_t size)
