@@ -63,7 +63,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         {
             printf("reallocating...\n");
             max_page_count *= 2;
-            realloc(*img_bufs, sizeof(UBYTE *) * max_page_count);
+            *img_bufs = (UBYTE**)realloc(*img_bufs, sizeof(UBYTE *) * max_page_count);
         }
 
         input = GetNextPage(input, page, max_line_count);
