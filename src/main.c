@@ -61,7 +61,6 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         img_bufs[page_count] = Render(page, &font);
         page_count++;
     }
-    //DisplayAsync(3, 1);
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
@@ -151,14 +150,13 @@ void Clear()
 
 void DisplayAsync(int timeout, int iterations)
 {
-    /*
      int pid = fork();
 
      if(pid == -1)
          exit(1);
      else if(pid > 0)
          return;
-*/
+
     signal(SIGINT, Dispose);
 
     if(DEV_Module_Init()!=0) exit(1);
@@ -167,7 +165,6 @@ void DisplayAsync(int timeout, int iterations)
 
     int current_page = 0;
     int current_loop = 0;
-    int initial_loop_count = iterations;
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
