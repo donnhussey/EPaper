@@ -43,7 +43,7 @@ int main(int c, char **v)
     char *input = GetInput(stdin, max_line_length);
     Wrap(input, max_line_length);
     BuildPages(input, max_line_count, max_line_length, font);
-    //DisplayAsync(5, 1);
+    DisplayAsync(5, 1);
 }
 
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
@@ -71,7 +71,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         printf(page);
         page_count++;
     }
-    DisplayAsync(3, 1);
+    //DisplayAsync(3, 1);
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
