@@ -43,7 +43,7 @@ int main(int c, char **v)
     char *input = GetInput(stdin, max_line_length);
     Wrap(input, max_line_length);
     BuildPages(input, max_line_count, max_line_length, font);
-    DisplayAsync(5, 1);
+    //DisplayAsync(5, 1);
 }
 
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
@@ -54,7 +54,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
 
     printf(input);
     printf("allocating...\n");
-    img_bufs = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count));
+    *img_bufs = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count));
 
     while(*input != '\0')
     {
@@ -63,7 +63,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         {
             printf("reallocating...\n");
             max_page_count *= 2;
-            realloc(img_bufs, sizeof(UBYTE *) * max_page_count);
+            realloc(*img_bufs, sizeof(UBYTE *) * max_page_count);
         }
 
         input = GetNextPage(input, page, max_line_count);
@@ -71,7 +71,7 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
         printf(page);
         page_count++;
     }
-    DisplayAsync(5, 1);
+    DisplayAsync();
 }
 
 char *GetNextPage(char *input, char *output, int max_line_count)
