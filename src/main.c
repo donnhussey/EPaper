@@ -15,23 +15,18 @@ int main(int c, char **v)
     while((optct = getopt(c, v, "cpf:r:t:")) != -1)
     switch(optct){
         case 'c': //clear
-            printf("clearing.\n");
             Clear();
             break;
         case 'p': //keep whatever was on the screen on the screen after completion
-            printf("persisting.\n");
             persist = 1;
             break;
         case 'f': //font
             font = GetFont(optarg);
-            printf("font size %i selected.\n", atoi(optarg));
             break;
         case 'r': //repeat
-            printf("Repeating %i times.\n", atoi(optarg));
             iterations = atoi(optarg);
             break;
         case 't': //timeout between screens
-            printf("Setting timeout to %i", atoi(optarg));
             timeout = atoi(optarg);
         default: //default
             break;
@@ -43,7 +38,7 @@ int main(int c, char **v)
     char *input = GetInput(stdin, max_line_length);
     Wrap(input, max_line_length);
     BuildPages(input, max_line_count, max_line_length, font);
-    DisplayAsync(iterations, timeout);
+    DisplayAsync(timeout, iterations);
 }
 
 void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font)
@@ -52,23 +47,18 @@ void BuildPages(char *input, int max_line_count, int max_line_length, sFONT font
     int max_page_count = 1;
     page_count = 0;
 
-    printf(input);
-    printf("allocating...\n");
     img_bufs = (UBYTE**)(malloc(sizeof(UBYTE*) * max_page_count));
 
     while(*input != '\0')
     {
-        printf("building page %i", page_count);
         if(page_count >= max_page_count)
         {
-            printf("reallocating...\n");
             max_page_count *= 2;
             img_bufs = (UBYTE**)realloc(img_bufs, sizeof(UBYTE *) * max_page_count);
         }
 
         input = GetNextPage(input, page, max_line_count);
         img_bufs[page_count] = Render(page, &font);
-        printf(page);
         page_count++;
     }
     //DisplayAsync(3, 1);
@@ -181,14 +171,10 @@ void DisplayAsync(int timeout, int iterations)
     UBYTE **img_bufs_cpy;
     img_bufs_cpy = img_bufs;
 
-    printf("page %i of %i", current_page, page_count);
-
     while(current_loop < iterations || iterations == 0)
     {
-        printf("loop %i of %i, forever if 0: %i\n", current_loop, iterations, initial_loop_count);
         while(current_page < page_count)
         {
-            printf("page %i of %i", current_page, page_count);
             EPD_2IN13_V2_Display(*img_bufs_cpy);
             **img_bufs_cpy++;
             current_page++;
